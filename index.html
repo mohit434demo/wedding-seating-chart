@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Olivia &amp; Wilson — Find Your Seat</title>
+<title>Sagar &amp; Krupa — Find Your Seat</title>
 <script>
   (() => {
     const param = new URLSearchParams(window.location.search).get("scoutTheme");
@@ -14,7 +14,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&family=Parisienne&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Marcellus&family=Rozha+One&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <style>
   :root {
@@ -43,14 +43,19 @@
     --cp-sheen: rgba(255, 255, 255, 0.55);
     --cp-highlight: rgba(177, 31, 75, 0.12);
 
-    /* Wedding palette */
-    --w-paper: #ffffff;
-    --w-ink: #2b2b2b;
-    --w-sub: #555;
-    --w-green: #7fa06b;
-    --w-green-deep: #5f7d4f;
-    --w-green-soft: #eef3e8;
-    --w-line: #e7e4dc;
+    /* South Asian wedding palette */
+    --w-paper: #fffaf0;
+    --w-paper-2: #fef4e2;
+    --w-ink: #3d2415;
+    --w-sub: #7c5a3e;
+    --w-gold: #bd8b2b;
+    --w-gold-deep: #9a6d1a;
+    --w-gold-soft: #f6e7c4;
+    --w-maroon: #7a1220;
+    --w-maroon-deep: #5c0d18;
+    --w-marigold: #e08a1e;
+    --w-marigold-soft: #fbeacb;
+    --w-line: #e6d4ad;
   }
   html[data-theme="dark"] {
     color-scheme: dark;
@@ -71,208 +76,227 @@
     --cp-danger: #f87171;
     --cp-warning: #fbbf24;
     --cp-link: #4da6ff;
-    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
     --cp-overlay: rgba(41, 41, 41, 0.88);
     --cp-panel: rgba(41, 41, 41, 0.72);
     --cp-panel-strong: rgba(41, 41, 41, 0.96);
     --cp-sheen: rgba(255, 255, 255, 0.04);
     --cp-highlight: rgba(253, 142, 161, 0.12);
 
-    --w-paper: #232322;
-    --w-ink: #ece9e2;
-    --w-sub: #b3afa6;
-    --w-green: #9dbb86;
-    --w-green-deep: #b6cfa3;
-    --w-green-soft: rgba(157, 187, 134, 0.12);
-    --w-line: #3a3a38;
+    --w-paper: #241812;
+    --w-paper-2: #2c1d13;
+    --w-ink: #f3e2c9;
+    --w-sub: #c8a983;
+    --w-gold: #e0b452;
+    --w-gold-deep: #f0c86a;
+    --w-gold-soft: rgba(224, 180, 82, 0.14);
+    --w-maroon: #e07385;
+    --w-maroon-deep: #f0a0ad;
+    --w-marigold: #f0a83a;
+    --w-marigold-soft: rgba(240, 138, 30, 0.14);
+    --w-line: #4a3418;
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
     font-family: "Cormorant Garamond", "Segoe UI", Georgia, serif;
-    background: var(--cp-bg);
+    background:
+      radial-gradient(circle at 15% 12%, var(--w-marigold-soft), transparent 42%),
+      radial-gradient(circle at 85% 88%, var(--w-marigold-soft), transparent 42%),
+      var(--cp-bg);
     color: var(--w-ink);
     -webkit-font-smoothing: antialiased;
-    padding: 24px 14px 96px;
+    padding: 26px 14px 100px;
   }
 
   .card {
-    max-width: 900px;
+    max-width: 920px;
     margin: 0 auto;
-    background: var(--w-paper);
-    border: 1px solid var(--w-line);
-    border-radius: 16px;
+    background:
+      linear-gradient(180deg, var(--w-paper) 0%, var(--w-paper-2) 100%);
+    border-radius: 18px;
     box-shadow: var(--cp-shadow);
-    padding: 40px 28px 56px;
+    padding: 0;
     position: relative;
     overflow: hidden;
   }
-
-  /* Botanical corners */
-  .leaf {
-    position: absolute;
-    width: 190px;
-    height: auto;
-    opacity: 0.9;
-    pointer-events: none;
-    z-index: 0;
+  /* Ornate gold double border */
+  .frame {
+    position: relative;
+    margin: 12px;
+    border: 2px solid var(--w-gold);
+    border-radius: 12px;
+    padding: 40px 26px 54px;
   }
-  .leaf.bl { bottom: -10px; left: -18px; transform: scaleX(1); }
-  .leaf.br { bottom: -10px; right: -18px; transform: scaleX(-1); }
-  @media (max-width: 560px) { .leaf { width: 120px; } }
+  .frame::before {
+    content: "";
+    position: absolute; inset: 5px;
+    border: 1px solid var(--w-gold);
+    border-radius: 8px;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* Mandala corners */
+  .mandala {
+    position: absolute; width: 150px; height: 150px;
+    opacity: 0.5; pointer-events: none; z-index: 0; color: var(--w-gold-deep);
+  }
+  .mandala.tl { top: -30px; left: -30px; }
+  .mandala.tr { top: -30px; right: -30px; }
+  .mandala.bl { bottom: -30px; left: -30px; }
+  .mandala.br { bottom: -30px; right: -30px; }
+  @media (max-width: 560px) { .mandala { width: 100px; height: 100px; } }
 
   header { text-align: center; position: relative; z-index: 1; }
+  .top-orn {
+    color: var(--w-maroon); font-family: "Rozha One", serif;
+    font-size: 1.05rem; letter-spacing: 0.14em; margin-bottom: 6px;
+  }
   .welcome {
     font-family: "Great Vibes", cursive;
     font-size: clamp(3.4rem, 11vw, 6rem);
     line-height: 0.9;
-    color: var(--w-ink);
-    margin: 0 0 6px;
-    font-weight: 400;
+    background: linear-gradient(180deg, var(--w-gold) 0%, var(--w-gold-deep) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: var(--w-gold-deep);
+    margin: 0 0 4px; font-weight: 400;
+    filter: drop-shadow(0 1px 0 rgba(0,0,0,0.06));
   }
   .to-wedding {
-    letter-spacing: 0.32em;
-    font-size: clamp(0.8rem, 2.6vw, 1rem);
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--w-sub);
-    margin: 6px 0 4px;
+    letter-spacing: 0.34em; font-size: clamp(0.78rem, 2.6vw, 0.98rem);
+    font-weight: 600; text-transform: uppercase; color: var(--w-sub);
+    margin: 6px 0 6px;
   }
   .couple {
-    font-family: "Cormorant Garamond", serif;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-size: clamp(1.6rem, 6vw, 2.7rem);
-    margin: 2px 0 2px;
-    color: var(--w-ink);
+    font-family: "Rozha One", serif; font-weight: 400;
+    letter-spacing: 0.02em;
+    font-size: clamp(2rem, 8vw, 3.4rem);
+    margin: 2px 0 2px; color: var(--w-maroon);
+    line-height: 1.05;
   }
+  .couple .amp { color: var(--w-gold-deep); font-family: "Great Vibes", cursive; font-size: 0.9em; }
   .find-seat {
-    font-family: "Parisienne", cursive;
-    font-size: clamp(1.5rem, 5vw, 2.1rem);
-    color: var(--w-green-deep);
-    margin: 0 0 22px;
+    font-family: "Great Vibes", cursive;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    color: var(--w-maroon); margin: 4px 0 4px;
   }
+  .flourish {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin: 14px auto 24px; max-width: 340px; color: var(--w-gold);
+  }
+  .flourish::before, .flourish::after {
+    content: ""; height: 1px; flex: 1;
+    background: linear-gradient(90deg, transparent, var(--w-gold), transparent);
+  }
+  .flourish span { font-size: 1.1rem; }
 
   /* Search */
-  .search-wrap { position: relative; z-index: 1; max-width: 520px; margin: 0 auto 8px; }
+  .search-wrap { position: relative; z-index: 1; max-width: 540px; margin: 0 auto 8px; }
   .search-box {
     display: flex; align-items: center; gap: 10px;
     background: var(--cp-surface);
-    border: 1.5px solid var(--w-green);
+    border: 1.5px solid var(--w-gold);
     border-radius: 999px;
     padding: 12px 18px;
-    box-shadow: 0 4px 14px rgba(127,160,107,0.14);
+    box-shadow: 0 4px 16px rgba(189,139,43,0.18);
   }
-  .search-box svg { flex: 0 0 auto; color: var(--w-green-deep); }
+  .search-box svg { flex: 0 0 auto; color: var(--w-gold-deep); }
   .search-box input {
     border: 0; outline: 0; background: transparent;
     font-family: "Cormorant Garamond", serif;
     font-size: 1.25rem; width: 100%; color: var(--w-ink);
   }
-  .search-box input::placeholder { color: var(--w-sub); opacity: 0.8; }
+  .search-box input::placeholder { color: var(--w-sub); opacity: 0.85; }
   .clear-btn {
     border: 0; background: transparent; cursor: pointer;
     color: var(--w-sub); font-size: 1.4rem; line-height: 1;
     padding: 0 2px; display: none;
   }
 
-  .result {
-    max-width: 520px; margin: 12px auto 0; z-index: 1; position: relative;
-    display: none;
-  }
+  .result { max-width: 540px; margin: 12px auto 0; z-index: 1; position: relative; display: none; }
   .result-inner {
-    background: var(--w-green-soft);
-    border: 1px solid var(--w-green);
-    border-radius: 14px;
-    padding: 16px 20px;
-    text-align: center;
+    background: var(--w-marigold-soft);
+    border: 1px solid var(--w-marigold);
+    border-radius: 14px; padding: 16px 20px; text-align: center;
   }
-  .result-name { font-size: 1.5rem; font-weight: 600; color: var(--w-ink); }
+  .result-name { font-size: 1.55rem; font-weight: 600; color: var(--w-maroon); }
   .result-table {
-    font-family: "Parisienne", cursive;
-    font-size: 1.9rem; color: var(--w-green-deep); margin-top: 2px;
+    font-family: "Great Vibes", cursive;
+    font-size: 2rem; color: var(--w-gold-deep); margin-top: 2px;
   }
   .result.none .result-inner {
-    background: var(--cp-surface-soft);
-    border-color: var(--w-line);
-    color: var(--w-sub);
+    background: var(--cp-surface-soft); border-color: var(--w-line); color: var(--w-sub);
   }
-  .result .companions {
-    margin-top: 8px; font-size: 1.05rem; color: var(--w-sub);
-  }
-
-  .divider {
-    display: flex; align-items: center; justify-content: center;
-    gap: 12px; margin: 30px auto 24px; max-width: 320px; color: var(--w-green);
-    position: relative; z-index: 1;
-  }
-  .divider::before, .divider::after {
-    content: ""; height: 1px; background: var(--w-line); flex: 1;
-  }
+  .result.none .result-name { color: var(--w-sub); }
+  .result .companions { margin-top: 8px; font-size: 1.05rem; color: var(--w-sub); }
 
   /* Tables grid */
   .tables {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 26px 20px;
-    position: relative; z-index: 1;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 26px 20px; position: relative; z-index: 1; margin-top: 8px;
   }
   @media (max-width: 680px) { .tables { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 420px) { .tables { grid-template-columns: 1fr; } }
 
-  .table-block { text-align: center; border-radius: 12px; padding: 8px 6px; transition: background .25s, box-shadow .25s; }
-  .table-block.dim { opacity: 0.28; }
+  .table-block {
+    text-align: center; border-radius: 12px; padding: 12px 8px;
+    transition: background .25s, box-shadow .25s, opacity .25s;
+    border: 1px solid transparent;
+  }
+  .table-block.dim { opacity: 0.25; }
   .table-block.match {
-    background: var(--w-green-soft);
-    box-shadow: 0 0 0 1.5px var(--w-green);
+    background: var(--w-marigold-soft);
+    box-shadow: 0 0 0 1.5px var(--w-marigold);
+    border-color: var(--w-marigold);
   }
   .table-title {
-    font-family: "Parisienne", cursive;
-    font-size: 1.7rem; color: var(--w-ink); margin-bottom: 6px;
+    font-family: "Rozha One", serif;
+    font-size: 1.4rem; color: var(--w-maroon); margin-bottom: 8px;
+    position: relative; display: inline-block;
   }
-  .guest {
-    font-size: 1.12rem; color: var(--w-ink); line-height: 1.5;
+  .table-title::after {
+    content: "❁"; display: block; color: var(--w-gold);
+    font-size: 0.8rem; margin-top: 2px;
   }
-  .guest.hit { color: var(--w-green-deep); font-weight: 600; }
-  mark { background: rgba(127,160,107,0.32); color: inherit; padding: 0 2px; border-radius: 3px; }
+  .guest { font-size: 1.12rem; color: var(--w-ink); line-height: 1.55; }
+  .guest.hit { color: var(--w-maroon); font-weight: 600; }
+  mark { background: rgba(224,138,30,0.34); color: inherit; padding: 0 2px; border-radius: 3px; }
 
   /* QR button + modal */
   .qr-fab {
     position: fixed; bottom: 20px; right: 20px; z-index: 20;
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--w-green-deep); color: #fff;
-    border: 0; border-radius: 999px; cursor: pointer;
-    padding: 12px 18px; font-family: "Cormorant Garamond", serif;
-    font-size: 1.05rem; font-weight: 600; letter-spacing: .02em;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+    background: linear-gradient(180deg, var(--w-maroon) 0%, var(--w-maroon-deep) 100%);
+    color: #fff9ec; border: 1px solid var(--w-gold); border-radius: 999px; cursor: pointer;
+    padding: 12px 18px; font-family: "Marcellus", serif;
+    font-size: 1.02rem; letter-spacing: .03em;
+    box-shadow: 0 8px 24px rgba(92,13,24,0.35);
   }
-  .qr-fab:hover { background: var(--w-green); }
+  .qr-fab:hover { filter: brightness(1.1); }
+  html[data-theme="dark"] .qr-fab { color: #2a1206; }
 
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-    display: none; align-items: center; justify-content: center; z-index: 30;
-    padding: 20px;
+    position: fixed; inset: 0; background: rgba(40,15,10,0.6);
+    display: none; align-items: center; justify-content: center; z-index: 30; padding: 20px;
   }
   .modal-overlay.open { display: flex; }
   .modal {
-    background: var(--w-paper); color: var(--w-ink);
+    background: linear-gradient(180deg, var(--w-paper) 0%, var(--w-paper-2) 100%);
+    color: var(--w-ink); border: 2px solid var(--w-gold);
     border-radius: 16px; max-width: 360px; width: 100%;
     padding: 26px 26px 22px; text-align: center;
     box-shadow: var(--cp-shadow); position: relative;
   }
   .modal h3 {
-    font-family: "Parisienne", cursive; font-weight: 400;
-    font-size: 1.9rem; margin: 0 0 4px; color: var(--w-green-deep);
+    font-family: "Great Vibes", cursive; font-weight: 400;
+    font-size: 2.1rem; margin: 0 0 4px; color: var(--w-maroon);
   }
   .modal p { color: var(--w-sub); font-size: 1.02rem; margin: 0 0 16px; }
   #qrcode { display: flex; justify-content: center; }
-  #qrcode img { width: 220px; height: 220px; border-radius: 10px; border: 1px solid var(--w-line); }
-  .modal .url {
-    margin-top: 14px; font-size: 0.82rem; color: var(--w-sub);
-    word-break: break-all; font-family: Consolas, monospace;
-  }
+  #qrcode img { width: 220px; height: 220px; border-radius: 10px; border: 2px solid var(--w-gold); background:#fff; padding:6px; }
+  .modal .url { margin-top: 14px; font-size: 0.82rem; color: var(--w-sub); word-break: break-all; font-family: Consolas, monospace; }
   .modal-close {
     position: absolute; top: 10px; right: 12px; border: 0; background: transparent;
     font-size: 1.5rem; cursor: pointer; color: var(--w-sub); line-height: 1;
@@ -282,73 +306,64 @@
 </head>
 <body>
   <div class="card">
-    <svg class="leaf bl" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <g stroke="var(--w-green-deep)" stroke-width="1.4" fill="none">
-        <path d="M20 150 C 55 120, 80 90, 95 45" />
-        <path d="M55 150 C 80 125, 100 100, 120 60" />
-        <path d="M95 150 C 110 128, 128 110, 150 80" />
-      </g>
-      <g fill="var(--w-green)">
-        <ellipse cx="95" cy="42" rx="12" ry="8" transform="rotate(-35 95 42)"/>
-        <ellipse cx="80" cy="64" rx="13" ry="9" transform="rotate(-20 80 64)"/>
-        <ellipse cx="66" cy="90" rx="13" ry="9" transform="rotate(-10 66 90)"/>
-        <ellipse cx="120" cy="58" rx="12" ry="8" transform="rotate(-45 120 58)"/>
-        <ellipse cx="108" cy="82" rx="13" ry="9" transform="rotate(-30 108 82)"/>
-        <ellipse cx="95" cy="108" rx="13" ry="9" transform="rotate(-15 95 108)"/>
-        <ellipse cx="150" cy="78" rx="12" ry="8" transform="rotate(-50 150 78)"/>
-        <ellipse cx="138" cy="102" rx="13" ry="9" transform="rotate(-35 138 102)"/>
-        <ellipse cx="126" cy="126" rx="13" ry="9" transform="rotate(-20 126 126)"/>
-        <ellipse cx="50" cy="120" rx="12" ry="8" transform="rotate(5 50 120)"/>
-        <ellipse cx="38" cy="140" rx="12" ry="8" transform="rotate(15 38 140)"/>
-      </g>
-    </svg>
-    <svg class="leaf br" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <g stroke="var(--w-green-deep)" stroke-width="1.4" fill="none">
-        <path d="M20 150 C 55 120, 80 90, 95 45" />
-        <path d="M55 150 C 80 125, 100 100, 120 60" />
-        <path d="M95 150 C 110 128, 128 110, 150 80" />
-      </g>
-      <g fill="var(--w-green)">
-        <ellipse cx="95" cy="42" rx="12" ry="8" transform="rotate(-35 95 42)"/>
-        <ellipse cx="80" cy="64" rx="13" ry="9" transform="rotate(-20 80 64)"/>
-        <ellipse cx="66" cy="90" rx="13" ry="9" transform="rotate(-10 66 90)"/>
-        <ellipse cx="120" cy="58" rx="12" ry="8" transform="rotate(-45 120 58)"/>
-        <ellipse cx="108" cy="82" rx="13" ry="9" transform="rotate(-30 108 82)"/>
-        <ellipse cx="95" cy="108" rx="13" ry="9" transform="rotate(-15 95 108)"/>
-        <ellipse cx="150" cy="78" rx="12" ry="8" transform="rotate(-50 150 78)"/>
-        <ellipse cx="138" cy="102" rx="13" ry="9" transform="rotate(-35 138 102)"/>
-        <ellipse cx="126" cy="126" rx="13" ry="9" transform="rotate(-20 126 126)"/>
-        <ellipse cx="50" cy="120" rx="12" ry="8" transform="rotate(5 50 120)"/>
-        <ellipse cx="38" cy="140" rx="12" ry="8" transform="rotate(15 38 140)"/>
-      </g>
-    </svg>
+    <div class="frame">
+      <svg class="mandala tl" viewBox="0 0 100 100" aria-hidden="true"><use href="#mdl"/></svg>
+      <svg class="mandala tr" viewBox="0 0 100 100" aria-hidden="true"><use href="#mdl"/></svg>
+      <svg class="mandala bl" viewBox="0 0 100 100" aria-hidden="true"><use href="#mdl"/></svg>
+      <svg class="mandala br" viewBox="0 0 100 100" aria-hidden="true"><use href="#mdl"/></svg>
 
-    <header>
-      <h1 class="welcome">Welcome</h1>
-      <div class="to-wedding">To the wedding of</div>
-      <div class="couple">Olivia &amp; Wilson</div>
-      <div class="find-seat">please find your seat</div>
-    </header>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <g id="mdl" fill="none" stroke="currentColor" stroke-width="1.1">
+          <circle cx="50" cy="50" r="8"/>
+          <circle cx="50" cy="50" r="16"/>
+          <circle cx="50" cy="50" r="46"/>
+          <g>
+            <path d="M50 4 C58 22 58 30 50 42 C42 30 42 22 50 4Z"/>
+            <path d="M50 96 C58 78 58 70 50 58 C42 70 42 78 50 96Z"/>
+            <path d="M4 50 C22 42 30 42 42 50 C30 58 22 58 4 50Z"/>
+            <path d="M96 50 C78 42 70 42 58 50 C70 58 78 58 96 50Z"/>
+            <path d="M18 18 C34 26 38 30 42 42 C30 38 26 34 18 18Z"/>
+            <path d="M82 18 C66 26 62 30 58 42 C70 38 74 34 82 18Z"/>
+            <path d="M18 82 C34 74 38 70 42 58 C30 62 26 66 18 82Z"/>
+            <path d="M82 82 C66 74 62 70 58 58 C70 62 74 66 82 82Z"/>
+          </g>
+          <g stroke-width="0.8">
+            <circle cx="50" cy="24" r="2.2"/><circle cx="50" cy="76" r="2.2"/>
+            <circle cx="24" cy="50" r="2.2"/><circle cx="76" cy="50" r="2.2"/>
+          </g>
+        </g>
+      </svg>
 
-    <div class="search-wrap">
-      <div class="search-box">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input id="search" type="text" placeholder="Type your name to find your table..." autocomplete="off" spellcheck="false" />
-        <button class="clear-btn" id="clear" aria-label="Clear">&times;</button>
+      <header>
+        <div class="top-orn">॥ शुभ विवाह ॥</div>
+        <h1 class="welcome">Welcome</h1>
+        <div class="to-wedding">To the wedding of</div>
+        <div class="couple">Sagar <span class="amp">&amp;</span> Krupa</div>
+        <div class="find-seat">please find your seat</div>
+      </header>
+
+      <div class="flourish"><span>&#10086;</span></div>
+
+      <div class="search-wrap">
+        <div class="search-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input id="search" type="text" placeholder="Type your name to find your table..." autocomplete="off" spellcheck="false" />
+          <button class="clear-btn" id="clear" aria-label="Clear">&times;</button>
+        </div>
       </div>
-    </div>
 
-    <div class="result" id="result">
-      <div class="result-inner">
-        <div class="result-name" id="resultName"></div>
-        <div class="result-table" id="resultTable"></div>
-        <div class="companions" id="resultCompanions"></div>
+      <div class="result" id="result">
+        <div class="result-inner">
+          <div class="result-name" id="resultName"></div>
+          <div class="result-table" id="resultTable"></div>
+          <div class="companions" id="resultCompanions"></div>
+        </div>
       </div>
+
+      <div class="flourish"><span>&#10022;</span></div>
+
+      <div class="tables" id="tables"></div>
     </div>
-
-    <div class="divider">&#10047;</div>
-
-    <div class="tables" id="tables"></div>
   </div>
 
   <button class="qr-fab" id="qrFab">
@@ -381,26 +396,21 @@
     { n: 9, guests: ["Monte Lin","Lynn Frost","Pamela Cooke","Mack Figueroa","Benedict Zimmerman","Pansy Novak","Orville Guerra"] },
   ];
 
-  const ordinal = (n) => ["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"][n] || n;
   const norm = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
 
-  // Build the grid
   const tablesEl = document.getElementById("tables");
   TABLES.forEach(t => {
     const block = document.createElement("div");
     block.className = "table-block";
     block.dataset.table = t.n;
     let html = `<div class="table-title">Table ${t.n}</div>`;
-    t.guests.forEach(g => {
-      html += `<div class="guest" data-name="${norm(g)}">${g}</div>`;
-    });
+    t.guests.forEach(g => { html += `<div class="guest" data-name="${norm(g)}">${g}</div>`; });
     block.innerHTML = html;
     tablesEl.appendChild(block);
   });
 
   const guestEls = Array.from(document.querySelectorAll(".guest"));
   const blockEls = Array.from(document.querySelectorAll(".table-block"));
-
   const searchEl = document.getElementById("search");
   const clearEl = document.getElementById("clear");
   const resultEl = document.getElementById("result");
@@ -409,56 +419,35 @@
   const resultCompanions = document.getElementById("resultCompanions");
 
   function findGuest(name) {
-    for (const t of TABLES) {
-      for (const g of t.guests) {
-        if (norm(g) === name) return { table: t.n, name: g, guests: t.guests };
-      }
-    }
+    for (const t of TABLES) for (const g of t.guests)
+      if (norm(g) === name) return { table: t.n, name: g, guests: t.guests };
     return null;
   }
-
   function reset() {
-    guestEls.forEach(el => el.classList.remove("hit"));
-    guestEls.forEach(el => { el.innerHTML = el.textContent; });
+    guestEls.forEach(el => { el.classList.remove("hit"); el.innerHTML = el.textContent; });
     blockEls.forEach(el => el.classList.remove("dim", "match"));
-    resultEl.className = "result";
-    resultEl.style.display = "none";
+    resultEl.className = "result"; resultEl.style.display = "none";
   }
-
   function highlight(el, q) {
-    const text = el.textContent;
-    const i = norm(text).indexOf(q);
+    const text = el.textContent; const i = norm(text).indexOf(q);
     if (i < 0) { el.innerHTML = text; return; }
     el.innerHTML = text.slice(0, i) + "<mark>" + text.slice(i, i + q.length) + "</mark>" + text.slice(i + q.length);
   }
-
   function onSearch() {
-    const raw = searchEl.value;
-    const q = norm(raw);
+    const raw = searchEl.value; const q = norm(raw);
     clearEl.style.display = raw ? "block" : "none";
-
     if (!q) { reset(); return; }
-
-    // Find all guests matching the query (substring)
     const matches = guestEls.filter(el => el.dataset.name.includes(q));
     const matchTables = new Set(matches.map(el => Number(el.closest(".table-block").dataset.table)));
-
-    // Style grid
-    guestEls.forEach(el => {
-      el.classList.remove("hit");
-      el.innerHTML = el.textContent;
-    });
+    guestEls.forEach(el => { el.classList.remove("hit"); el.innerHTML = el.textContent; });
     blockEls.forEach(el => {
       const isMatch = matchTables.has(Number(el.dataset.table));
       el.classList.toggle("match", isMatch);
       el.classList.toggle("dim", !isMatch && matchTables.size > 0);
     });
     matches.forEach(el => { el.classList.add("hit"); highlight(el, q); });
-
-    // Result banner
     if (matches.length === 0) {
-      resultEl.className = "result none";
-      resultEl.style.display = "block";
+      resultEl.className = "result none"; resultEl.style.display = "block";
       resultName.textContent = `No guest found for "${raw.trim()}"`;
       resultTable.textContent = "";
       resultCompanions.textContent = "Please check the spelling or ask an usher.";
@@ -466,15 +455,13 @@
       const el = matches[0];
       const tableNo = Number(el.closest(".table-block").dataset.table);
       const info = findGuest(el.dataset.name) || { guests: [] };
-      resultEl.className = "result";
-      resultEl.style.display = "block";
+      resultEl.className = "result"; resultEl.style.display = "block";
       resultName.textContent = el.textContent;
       resultTable.textContent = `You're at Table ${tableNo}`;
       const others = info.guests.filter(g => norm(g) !== el.dataset.name);
       resultCompanions.textContent = others.length ? "Seated with: " + others.join(", ") : "";
     } else {
-      resultEl.className = "result";
-      resultEl.style.display = "block";
+      resultEl.className = "result"; resultEl.style.display = "block";
       resultName.textContent = `${matches.length} matches`;
       resultTable.textContent = matchTables.size === 1
         ? `All at Table ${[...matchTables][0]}`
@@ -482,7 +469,6 @@
       resultCompanions.textContent = "Keep typing to narrow it down.";
     }
   }
-
   searchEl.addEventListener("input", onSearch);
   clearEl.addEventListener("click", () => { searchEl.value = ""; searchEl.focus(); onSearch(); });
 
@@ -493,13 +479,9 @@
     const qrBox = document.getElementById("qrcode");
     document.getElementById("qrUrl").textContent = url;
     try {
-      const qr = qrcode(0, "M");
-      qr.addData(url);
-      qr.make();
+      const qr = qrcode(0, "M"); qr.addData(url); qr.make();
       qrBox.innerHTML = qr.createImgTag(6, 8);
-    } catch (e) {
-      qrBox.textContent = "Unable to render QR (no internet?).";
-    }
+    } catch (e) { qrBox.textContent = "Unable to render QR (no internet?)."; }
     modalOverlay.classList.add("open");
   });
   document.getElementById("modalClose").addEventListener("click", () => modalOverlay.classList.remove("open"));
