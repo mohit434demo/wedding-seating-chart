@@ -6,10 +6,9 @@
 <title>Sagar &amp; Krupa — Find Your Seat</title>
 <script>
   (() => {
+    // This wedding page is intentionally light; honor an explicit override only.
     const param = new URLSearchParams(window.location.search).get("scoutTheme");
-    const theme =
-      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-theme", param || "light");
   })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,322 +19,215 @@
   :root {
     color-scheme: light;
     --cp-bg: #f7f4ef;
-    --cp-bg-elevated: #fcfbf8;
     --cp-surface: #ffffff;
     --cp-surface-soft: #f5f5f5;
     --cp-border: #dedede;
-    --cp-border-strong: #919191;
     --cp-text: #242424;
-    --cp-text-muted: #5c5c5c;
-    --cp-text-soft: #6f6f6f;
-    --cp-accent: #b11f4b;
-    --cp-accent-hover: #9a1a41;
-    --cp-accent-soft: rgba(177, 31, 75, 0.08);
-    --cp-accent-fg: #ffffff;
-    --cp-success: #16a34a;
-    --cp-danger: #dc2626;
-    --cp-warning: #f59e0b;
-    --cp-link: #0078d4;
     --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
-    --cp-overlay: rgba(255, 255, 255, 0.8);
-    --cp-panel: rgba(255, 255, 255, 0.86);
-    --cp-panel-strong: rgba(255, 255, 255, 0.96);
-    --cp-sheen: rgba(255, 255, 255, 0.55);
-    --cp-highlight: rgba(177, 31, 75, 0.12);
 
-    /* South Asian wedding palette */
-    --w-paper: #fffaf0;
-    --w-paper-2: #fef4e2;
-    --w-ink: #3d2415;
-    --w-sub: #7c5a3e;
-    --w-gold: #bd8b2b;
-    --w-gold-deep: #9a6d1a;
-    --w-gold-soft: #f6e7c4;
-    --w-maroon: #7a1220;
-    --w-maroon-deep: #5c0d18;
-    --w-marigold: #e08a1e;
-    --w-marigold-soft: #fbeacb;
-    --w-line: #e6d4ad;
+    /* Light indigo block-print palette */
+    --w-paper: #ffffff;
+    --w-paper-2: #fdfcf9;
+    --w-ink: #2c2c2c;
+    --w-sub: #6b6b78;
+    --w-indigo: #2a337e;
+    --w-indigo-deep: #1d2560;
+    --w-indigo-soft: #eef0fb;
+    --w-line: #d9dcef;
+    --w-accent: #2a337e;
   }
   html[data-theme="dark"] {
     color-scheme: dark;
     --cp-bg: #3d3b3a;
-    --cp-bg-elevated: #343231;
     --cp-surface: #292929;
     --cp-surface-soft: #2e2e2e;
     --cp-border: #474747;
-    --cp-border-strong: #5f5f5f;
     --cp-text: #dedede;
-    --cp-text-muted: #919191;
-    --cp-text-soft: #b0b0b0;
-    --cp-accent: #fd8ea1;
-    --cp-accent-hover: #fb7b91;
-    --cp-accent-soft: rgba(253, 142, 161, 0.14);
-    --cp-accent-fg: #1a1a1a;
-    --cp-success: #4ade80;
-    --cp-danger: #f87171;
-    --cp-warning: #fbbf24;
-    --cp-link: #4da6ff;
     --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
-    --cp-overlay: rgba(41, 41, 41, 0.88);
-    --cp-panel: rgba(41, 41, 41, 0.72);
-    --cp-panel-strong: rgba(41, 41, 41, 0.96);
-    --cp-sheen: rgba(255, 255, 255, 0.04);
-    --cp-highlight: rgba(253, 142, 161, 0.12);
 
-    --w-paper: #241812;
-    --w-paper-2: #2c1d13;
-    --w-ink: #f3e2c9;
-    --w-sub: #c8a983;
-    --w-gold: #e0b452;
-    --w-gold-deep: #f0c86a;
-    --w-gold-soft: rgba(224, 180, 82, 0.14);
-    --w-maroon: #e07385;
-    --w-maroon-deep: #f0a0ad;
-    --w-marigold: #f0a83a;
-    --w-marigold-soft: rgba(240, 138, 30, 0.14);
-    --w-line: #4a3418;
+    --w-paper: #1c1e33;
+    --w-paper-2: #191b2c;
+    --w-ink: #e9e9f2;
+    --w-sub: #a7a9c2;
+    --w-indigo: #9aa4e6;
+    --w-indigo-deep: #b6bdf0;
+    --w-indigo-soft: rgba(154, 164, 230, 0.14);
+    --w-line: #34375a;
+    --w-accent: #9aa4e6;
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
     font-family: "Cormorant Garamond", "Segoe UI", Georgia, serif;
-    background:
-      radial-gradient(circle at 15% 12%, var(--w-marigold-soft), transparent 42%),
-      radial-gradient(circle at 85% 88%, var(--w-marigold-soft), transparent 42%),
-      var(--cp-bg);
+    background: var(--cp-bg);
     color: var(--w-ink);
     -webkit-font-smoothing: antialiased;
     padding: 26px 14px 100px;
   }
 
   .card {
-    max-width: 920px;
-    margin: 0 auto;
-    background:
-      linear-gradient(180deg, var(--w-paper) 0%, var(--w-paper-2) 100%);
-    border-radius: 18px;
-    box-shadow: var(--cp-shadow);
-    padding: 0;
-    position: relative;
-    overflow: hidden;
+    max-width: 920px; margin: 0 auto;
+    background: linear-gradient(180deg, var(--w-paper) 0%, var(--w-paper-2) 100%);
+    border-radius: 14px; box-shadow: var(--cp-shadow);
+    position: relative; overflow: hidden;
   }
-  /* Ornate gold double border */
-  .frame {
-    position: relative;
-    margin: 12px;
-    border: 2px solid var(--w-gold);
-    border-radius: 12px;
-    padding: 40px 26px 54px;
-  }
-  .frame::before {
-    content: "";
-    position: absolute; inset: 5px;
-    border: 1px solid var(--w-gold);
-    border-radius: 8px;
-    opacity: 0.55;
-    pointer-events: none;
+  .frame { position: relative; padding: 8px 26px 14px; }
+  .inner-rule {
+    position: absolute; inset: 74px 14px 74px;
+    border: 1px solid var(--w-line); border-radius: 8px; pointer-events: none; z-index: 0;
   }
 
-  /* Mandala corners */
-  .mandala {
-    position: absolute; width: 150px; height: 150px;
-    opacity: 0.5; pointer-events: none; z-index: 0; color: var(--w-gold-deep);
-  }
-  .mandala.tl { top: -30px; left: -30px; }
-  .mandala.tr { top: -30px; right: -30px; }
-  .mandala.bl { bottom: -30px; left: -30px; }
-  .mandala.br { bottom: -30px; right: -30px; }
-  @media (max-width: 560px) { .mandala { width: 100px; height: 100px; } }
+  /* Paisley block-print border band */
+  .band { display: block; width: 100%; height: 66px; color: var(--w-indigo); }
+  .band.bottom { transform: scaleY(-1); }
+  @media (max-width: 560px) { .band { height: 50px; } .inner-rule { inset: 58px 8px 58px; } }
 
-  header { text-align: center; position: relative; z-index: 1; }
+  header { text-align: center; position: relative; z-index: 1; padding-top: 14px; }
   .top-orn {
-    color: var(--w-maroon); font-family: "Rozha One", serif;
-    font-size: 1.05rem; letter-spacing: 0.14em; margin-bottom: 6px;
+    color: var(--w-indigo); font-family: "Marcellus", serif;
+    font-size: 0.95rem; letter-spacing: 0.28em; text-transform: uppercase; margin-bottom: 4px;
   }
   .welcome {
     font-family: "Great Vibes", cursive;
-    font-size: clamp(3.4rem, 11vw, 6rem);
-    line-height: 0.9;
-    background: linear-gradient(180deg, var(--w-gold) 0%, var(--w-gold-deep) 100%);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent; color: var(--w-gold-deep);
-    margin: 0 0 4px; font-weight: 400;
-    filter: drop-shadow(0 1px 0 rgba(0,0,0,0.06));
+    font-size: clamp(3.2rem, 10vw, 5.6rem); line-height: 0.9;
+    color: var(--w-indigo); margin: 0 0 4px; font-weight: 400;
   }
   .to-wedding {
-    letter-spacing: 0.34em; font-size: clamp(0.78rem, 2.6vw, 0.98rem);
-    font-weight: 600; text-transform: uppercase; color: var(--w-sub);
-    margin: 6px 0 6px;
+    letter-spacing: 0.34em; font-size: clamp(0.76rem, 2.5vw, 0.95rem);
+    font-weight: 600; text-transform: uppercase; color: var(--w-sub); margin: 6px 0 6px;
   }
   .couple {
-    font-family: "Rozha One", serif; font-weight: 400;
-    letter-spacing: 0.02em;
-    font-size: clamp(2rem, 8vw, 3.4rem);
-    margin: 2px 0 2px; color: var(--w-maroon);
-    line-height: 1.05;
+    font-family: "Rozha One", serif; font-weight: 400; letter-spacing: 0.02em;
+    font-size: clamp(1.9rem, 7.5vw, 3.1rem); margin: 2px 0; color: var(--w-indigo-deep); line-height: 1.05;
   }
-  .couple .amp { color: var(--w-gold-deep); font-family: "Great Vibes", cursive; font-size: 0.9em; }
+  .couple .amp { font-family: "Great Vibes", cursive; font-size: 0.95em; color: var(--w-indigo); }
   .find-seat {
-    font-family: "Great Vibes", cursive;
-    font-size: clamp(1.6rem, 5vw, 2.2rem);
-    color: var(--w-maroon); margin: 4px 0 4px;
+    font-family: "Great Vibes", cursive; font-size: clamp(1.5rem, 5vw, 2.1rem);
+    color: var(--w-indigo); margin: 2px 0 2px;
   }
   .flourish {
     display: flex; align-items: center; justify-content: center; gap: 12px;
-    margin: 14px auto 24px; max-width: 340px; color: var(--w-gold);
+    margin: 14px auto 22px; max-width: 320px; color: var(--w-indigo);
   }
   .flourish::before, .flourish::after {
     content: ""; height: 1px; flex: 1;
-    background: linear-gradient(90deg, transparent, var(--w-gold), transparent);
+    background: linear-gradient(90deg, transparent, var(--w-line), transparent);
   }
-  .flourish span { font-size: 1.1rem; }
+  .flourish span { font-size: 1rem; opacity: 0.9; }
 
   /* Search */
   .search-wrap { position: relative; z-index: 1; max-width: 540px; margin: 0 auto 8px; }
   .search-box {
     display: flex; align-items: center; gap: 10px;
-    background: var(--cp-surface);
-    border: 1.5px solid var(--w-gold);
-    border-radius: 999px;
-    padding: 12px 18px;
-    box-shadow: 0 4px 16px rgba(189,139,43,0.18);
+    background: var(--cp-surface); border: 1.5px solid var(--w-indigo);
+    border-radius: 999px; padding: 12px 18px;
+    box-shadow: 0 4px 14px rgba(42,51,126,0.12);
   }
-  .search-box svg { flex: 0 0 auto; color: var(--w-gold-deep); }
+  .search-box svg { flex: 0 0 auto; color: var(--w-indigo); }
   .search-box input {
     border: 0; outline: 0; background: transparent;
-    font-family: "Cormorant Garamond", serif;
-    font-size: 1.25rem; width: 100%; color: var(--w-ink);
+    font-family: "Cormorant Garamond", serif; font-size: 1.25rem; width: 100%; color: var(--w-ink);
   }
   .search-box input::placeholder { color: var(--w-sub); opacity: 0.85; }
   .clear-btn {
-    border: 0; background: transparent; cursor: pointer;
-    color: var(--w-sub); font-size: 1.4rem; line-height: 1;
-    padding: 0 2px; display: none;
+    border: 0; background: transparent; cursor: pointer; color: var(--w-sub);
+    font-size: 1.4rem; line-height: 1; padding: 0 2px; display: none;
   }
 
   .result { max-width: 540px; margin: 12px auto 0; z-index: 1; position: relative; display: none; }
   .result-inner {
-    background: var(--w-marigold-soft);
-    border: 1px solid var(--w-marigold);
+    background: var(--w-indigo-soft); border: 1px solid var(--w-indigo);
     border-radius: 14px; padding: 16px 20px; text-align: center;
   }
-  .result-name { font-size: 1.55rem; font-weight: 600; color: var(--w-maroon); }
-  .result-table {
-    font-family: "Great Vibes", cursive;
-    font-size: 2rem; color: var(--w-gold-deep); margin-top: 2px;
-  }
-  .result.none .result-inner {
-    background: var(--cp-surface-soft); border-color: var(--w-line); color: var(--w-sub);
-  }
+  .result-name { font-size: 1.5rem; font-weight: 600; color: var(--w-indigo-deep); }
+  .result-table { font-family: "Great Vibes", cursive; font-size: 1.95rem; color: var(--w-indigo); margin-top: 2px; }
+  .result.none .result-inner { background: var(--cp-surface-soft); border-color: var(--w-line); }
   .result.none .result-name { color: var(--w-sub); }
   .result .companions { margin-top: 8px; font-size: 1.05rem; color: var(--w-sub); }
 
   /* Tables grid */
-  .tables {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 26px 20px; position: relative; z-index: 1; margin-top: 8px;
-  }
+  .tables { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px 20px; position: relative; z-index: 1; margin-top: 8px; }
   @media (max-width: 680px) { .tables { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 420px) { .tables { grid-template-columns: 1fr; } }
 
   .table-block {
     text-align: center; border-radius: 12px; padding: 12px 8px;
-    transition: background .25s, box-shadow .25s, opacity .25s;
-    border: 1px solid transparent;
+    transition: background .25s, box-shadow .25s, opacity .25s; border: 1px solid transparent;
   }
   .table-block.dim { opacity: 0.25; }
-  .table-block.match {
-    background: var(--w-marigold-soft);
-    box-shadow: 0 0 0 1.5px var(--w-marigold);
-    border-color: var(--w-marigold);
-  }
-  .table-title {
-    font-family: "Rozha One", serif;
-    font-size: 1.4rem; color: var(--w-maroon); margin-bottom: 8px;
-    position: relative; display: inline-block;
-  }
-  .table-title::after {
-    content: "❁"; display: block; color: var(--w-gold);
-    font-size: 0.8rem; margin-top: 2px;
-  }
+  .table-block.match { background: var(--w-indigo-soft); box-shadow: 0 0 0 1.5px var(--w-indigo); border-color: var(--w-indigo); }
+  .table-title { font-family: "Rozha One", serif; font-size: 1.35rem; color: var(--w-indigo-deep); margin-bottom: 8px; display: inline-block; }
+  .table-title::after { content: "❁"; display: block; color: var(--w-indigo); font-size: 0.75rem; margin-top: 2px; opacity: 0.7; }
   .guest { font-size: 1.12rem; color: var(--w-ink); line-height: 1.55; }
-  .guest.hit { color: var(--w-maroon); font-weight: 600; }
-  mark { background: rgba(224,138,30,0.34); color: inherit; padding: 0 2px; border-radius: 3px; }
+  .guest.hit { color: var(--w-indigo-deep); font-weight: 600; }
+  mark { background: rgba(42,51,126,0.16); color: inherit; padding: 0 2px; border-radius: 3px; }
 
   /* QR button + modal */
   .qr-fab {
     position: fixed; bottom: 20px; right: 20px; z-index: 20;
     display: inline-flex; align-items: center; gap: 8px;
-    background: linear-gradient(180deg, var(--w-maroon) 0%, var(--w-maroon-deep) 100%);
-    color: #fff9ec; border: 1px solid var(--w-gold); border-radius: 999px; cursor: pointer;
-    padding: 12px 18px; font-family: "Marcellus", serif;
-    font-size: 1.02rem; letter-spacing: .03em;
-    box-shadow: 0 8px 24px rgba(92,13,24,0.35);
+    background: var(--w-indigo); color: #fff; border: 0; border-radius: 999px; cursor: pointer;
+    padding: 12px 18px; font-family: "Marcellus", serif; font-size: 1.02rem; letter-spacing: .03em;
+    box-shadow: 0 8px 24px rgba(42,51,126,0.3);
   }
-  .qr-fab:hover { filter: brightness(1.1); }
-  html[data-theme="dark"] .qr-fab { color: #2a1206; }
+  .qr-fab:hover { background: var(--w-indigo-deep); }
+  html[data-theme="dark"] .qr-fab { color: #14162a; }
 
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(40,15,10,0.6);
-    display: none; align-items: center; justify-content: center; z-index: 30; padding: 20px;
-  }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(20,22,42,0.55); display: none; align-items: center; justify-content: center; z-index: 30; padding: 20px; }
   .modal-overlay.open { display: flex; }
   .modal {
-    background: linear-gradient(180deg, var(--w-paper) 0%, var(--w-paper-2) 100%);
-    color: var(--w-ink); border: 2px solid var(--w-gold);
-    border-radius: 16px; max-width: 360px; width: 100%;
-    padding: 26px 26px 22px; text-align: center;
+    background: var(--w-paper); color: var(--w-ink); border: 1.5px solid var(--w-indigo);
+    border-radius: 16px; max-width: 360px; width: 100%; padding: 26px 26px 22px; text-align: center;
     box-shadow: var(--cp-shadow); position: relative;
   }
-  .modal h3 {
-    font-family: "Great Vibes", cursive; font-weight: 400;
-    font-size: 2.1rem; margin: 0 0 4px; color: var(--w-maroon);
-  }
+  .modal h3 { font-family: "Great Vibes", cursive; font-weight: 400; font-size: 2rem; margin: 0 0 4px; color: var(--w-indigo); }
   .modal p { color: var(--w-sub); font-size: 1.02rem; margin: 0 0 16px; }
   #qrcode { display: flex; justify-content: center; }
-  #qrcode img { width: 220px; height: 220px; border-radius: 10px; border: 2px solid var(--w-gold); background:#fff; padding:6px; }
+  #qrcode img { width: 220px; height: 220px; border-radius: 10px; border: 1.5px solid var(--w-indigo); background:#fff; padding:6px; }
   .modal .url { margin-top: 14px; font-size: 0.82rem; color: var(--w-sub); word-break: break-all; font-family: Consolas, monospace; }
-  .modal-close {
-    position: absolute; top: 10px; right: 12px; border: 0; background: transparent;
-    font-size: 1.5rem; cursor: pointer; color: var(--w-sub); line-height: 1;
-  }
+  .modal-close { position: absolute; top: 10px; right: 12px; border: 0; background: transparent; font-size: 1.5rem; cursor: pointer; color: var(--w-sub); line-height: 1; }
   .modal .hint { font-size: 0.8rem; color: var(--w-sub); margin-top: 10px; }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="frame">
-      <svg class="mandala tl" viewBox="0 0 100 100" aria-hidden="true"><use href="#mdl"/></svg>
-      <svg class="mandala tr" viewBox="0 0 100 100" aria-hidden="true"><use href="#mdl"/></svg>
-      <svg class="mandala bl" viewBox="0 0 100 100" aria-hidden="true"><use href="#mdl"/></svg>
-      <svg class="mandala br" viewBox="0 0 100 100" aria-hidden="true"><use href="#mdl"/></svg>
-
-      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-        <g id="mdl" fill="none" stroke="currentColor" stroke-width="1.1">
-          <circle cx="50" cy="50" r="8"/>
-          <circle cx="50" cy="50" r="16"/>
-          <circle cx="50" cy="50" r="46"/>
-          <g>
-            <path d="M50 4 C58 22 58 30 50 42 C42 30 42 22 50 4Z"/>
-            <path d="M50 96 C58 78 58 70 50 58 C42 70 42 78 50 96Z"/>
-            <path d="M4 50 C22 42 30 42 42 50 C30 58 22 58 4 50Z"/>
-            <path d="M96 50 C78 42 70 42 58 50 C70 58 78 58 96 50Z"/>
-            <path d="M18 18 C34 26 38 30 42 42 C30 38 26 34 18 18Z"/>
-            <path d="M82 18 C66 26 62 30 58 42 C70 38 74 34 82 18Z"/>
-            <path d="M18 82 C34 74 38 70 42 58 C30 62 26 66 18 82Z"/>
-            <path d="M82 82 C66 74 62 70 58 58 C70 62 74 66 82 82Z"/>
-          </g>
-          <g stroke-width="0.8">
-            <circle cx="50" cy="24" r="2.2"/><circle cx="50" cy="76" r="2.2"/>
-            <circle cx="24" cy="50" r="2.2"/><circle cx="76" cy="50" r="2.2"/>
-          </g>
+  <!-- Reusable paisley / floral block-print band -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <pattern id="paisleyBand" x="0" y="0" width="150" height="66" patternUnits="userSpaceOnUse">
+        <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <!-- scallop arches -->
+          <path d="M0 12 Q25 34 50 12 Q75 34 100 12 Q125 34 150 12"/>
+          <!-- paisley (buta) centered -->
+          <path d="M75 30 C 54 30 46 50 55 64 C 61 74 78 75 84 64 C 88 56 83 48 74 50 C 68 51 67 58 72 60"/>
+          <path d="M74 36 C 59 37 52 51 57 63 C 60 70 73 71 80 63"/>
+          <!-- paisley center bloom -->
+          <circle cx="65" cy="49" r="3.4"/>
         </g>
-      </svg>
+        <g fill="currentColor" stroke="none">
+          <!-- cusp dots -->
+          <circle cx="0" cy="10" r="1.7"/><circle cx="50" cy="10" r="1.7"/><circle cx="100" cy="10" r="1.7"/><circle cx="150" cy="10" r="1.7"/>
+          <circle cx="25" cy="24" r="1.3"/><circle cx="75" cy="24" r="1.3"/><circle cx="125" cy="24" r="1.3"/>
+          <!-- paisley fringe dots -->
+          <circle cx="53" cy="49" r="1.3"/><circle cx="51" cy="56" r="1.3"/><circle cx="53" cy="63" r="1.3"/><circle cx="59" cy="69" r="1.3"/>
+          <circle cx="65" cy="49" r="1"/>
+          <!-- small florets left & right -->
+          <g><circle cx="20" cy="50" r="1.5"/><circle cx="20" cy="44" r="1.4"/><circle cx="26" cy="48" r="1.4"/><circle cx="24" cy="55" r="1.4"/><circle cx="16" cy="55" r="1.4"/><circle cx="14" cy="48" r="1.4"/></g>
+          <g><circle cx="130" cy="50" r="1.5"/><circle cx="130" cy="44" r="1.4"/><circle cx="136" cy="48" r="1.4"/><circle cx="134" cy="55" r="1.4"/><circle cx="124" cy="55" r="1.4"/><circle cx="122" cy="48" r="1.4"/></g>
+          <!-- scatter -->
+          <circle cx="40" cy="42" r="1.1"/><circle cx="110" cy="42" r="1.1"/><circle cx="95" cy="62" r="1.1"/>
+        </g>
+      </pattern>
+    </defs>
+  </svg>
+
+  <div class="card">
+    <svg class="band top" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#paisleyBand)"/></svg>
+    <div class="frame">
+      <div class="inner-rule"></div>
 
       <header>
-        <div class="top-orn">॥ शुभ विवाह ॥</div>
+        <div class="top-orn">Shubh Vivah</div>
         <h1 class="welcome">Welcome</h1>
         <div class="to-wedding">To the wedding of</div>
         <div class="couple">Sagar <span class="amp">&amp;</span> Krupa</div>
@@ -364,6 +256,7 @@
 
       <div class="tables" id="tables"></div>
     </div>
+    <svg class="band bottom" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#paisleyBand)"/></svg>
   </div>
 
   <button class="qr-fab" id="qrFab">
@@ -383,7 +276,6 @@
   </div>
 
 <script>
-  // ---- Guest data (dummy names) ----
   const TABLES = [
     { n: 1, guests: ["Paul Nolan","Steven McLean","Madeleine Manning","Olivia Graham","Carolyn Kelly","Justin Jones"] },
     { n: 2, guests: ["Jed Sparks","Anne Vargas","Lorene Rollins","Carter Jackson","Marcelino Beasley","Erick Fleming"] },
@@ -401,12 +293,10 @@
   const tablesEl = document.getElementById("tables");
   TABLES.forEach(t => {
     const block = document.createElement("div");
-    block.className = "table-block";
-    block.dataset.table = t.n;
+    block.className = "table-block"; block.dataset.table = t.n;
     let html = `<div class="table-title">Table ${t.n}</div>`;
     t.guests.forEach(g => { html += `<div class="guest" data-name="${norm(g)}">${g}</div>`; });
-    block.innerHTML = html;
-    tablesEl.appendChild(block);
+    block.innerHTML = html; tablesEl.appendChild(block);
   });
 
   const guestEls = Array.from(document.querySelectorAll(".guest"));
@@ -472,10 +362,9 @@
   searchEl.addEventListener("input", onSearch);
   clearEl.addEventListener("click", () => { searchEl.value = ""; searchEl.focus(); onSearch(); });
 
-  // ---- QR code ----
   const modalOverlay = document.getElementById("modalOverlay");
   document.getElementById("qrFab").addEventListener("click", () => {
-    const url = window.location.href;
+    const url = window.location.href.split("?")[0];
     const qrBox = document.getElementById("qrcode");
     document.getElementById("qrUrl").textContent = url;
     try {
