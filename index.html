@@ -224,9 +224,11 @@
     text-transform: none; letter-spacing: normal;
     font-size: 0.78em; line-height: 1;
     color: var(--w-ivory-dim);
-    /* half the tracking, converted from couple-em into amp-em (÷0.78),
-       plus a baseline drop so the script sits with the uppercase serif */
-    transform: translate(0.103em, 0.06em);
+    /* real breathing room either side - the slanted "d" ascender leans
+       toward the following capital, so it needs more than a tight gap */
+    margin: 0 0.26em;
+    /* baseline drop only - the symmetric margins above handle the spacing */
+    transform: translateY(0.06em);
   }
   .wed-date {
     font-size: clamp(0.92rem, 2.7vw, 1.2rem);
