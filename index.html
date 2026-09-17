@@ -1,262 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sagar &amp; Krupa — Find Your Seat</title>
-<script>
-  (() => {
-    // This wedding page is intentionally light; honor an explicit override only.
-    const param = new URLSearchParams(window.location.search).get("scoutTheme");
-    document.documentElement.setAttribute("data-theme", param || "light");
-  })();
-</script>
+<meta name="theme-color" content="#123b2c" />
+<title>Sagar &amp; Krupa &mdash; Find Your Seat</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Marcellus&family=Rozha+One&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <style>
   :root {
-    color-scheme: light;
-    --cp-bg: #f7f4ef;
-    --cp-surface: #ffffff;
-    --cp-surface-soft: #f5f5f5;
-    --cp-border: #dedede;
-    --cp-text: #242424;
-    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
-
-    /* Light indigo block-print palette */
-    --w-paper: #ffffff;
-    --w-paper-2: #fdfcf9;
-    --w-ink: #2c2c2c;
-    --w-sub: #6b6b78;
-    --w-indigo: #2a337e;
-    --w-indigo-deep: #1d2560;
-    --w-indigo-soft: #eef0fb;
-    --w-line: #d9dcef;
-    --w-accent: #2a337e;
-  }
-  html[data-theme="dark"] {
     color-scheme: dark;
-    --cp-bg: #3d3b3a;
-    --cp-surface: #292929;
-    --cp-surface-soft: #2e2e2e;
-    --cp-border: #474747;
-    --cp-text: #dedede;
-    --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.4);
-
-    --w-paper: #1c1e33;
-    --w-paper-2: #191b2c;
-    --w-ink: #e9e9f2;
-    --w-sub: #a7a9c2;
-    --w-indigo: #9aa4e6;
-    --w-indigo-deep: #b6bdf0;
-    --w-indigo-soft: rgba(154, 164, 230, 0.14);
-    --w-line: #34375a;
-    --w-accent: #9aa4e6;
+    --w-green:      #14402f;
+    --w-green-deep: #0e3123;
+    --w-green-soft: #1b5240;
+    --font-script:  "Dancing Script", "Sacramento", cursive;
+    --w-ivory:      #f4f1ea;
+    --w-ivory-dim:  rgba(244, 241, 234, 0.78);
+    --w-ivory-faint:rgba(244, 241, 234, 0.34);
+    --w-veil:       rgba(244, 241, 234, 0.08);
+    --w-shadow:     0 18px 48px rgba(0, 0, 0, 0.35);
   }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    font-family: "Cormorant Garamond", "Segoe UI", Georgia, serif;
-    background: var(--cp-bg);
-    color: var(--w-ink);
+    font-family: "Cormorant Garamond", Georgia, serif;
+    background: var(--w-green);
+    color: var(--w-ivory);
     -webkit-font-smoothing: antialiased;
-    padding: 26px 14px 100px;
+    overflow-x: hidden;
   }
 
-  .card {
-    max-width: 920px; margin: 0 auto;
-    background: linear-gradient(180deg, var(--w-paper) 0%, var(--w-paper-2) 100%);
-    border-radius: 14px; box-shadow: var(--cp-shadow);
-    position: relative; overflow: hidden;
-  }
-  .frame { position: relative; padding: 8px 26px 14px; }
-  .inner-rule {
-    position: absolute; inset: 74px 14px 74px;
-    border: 1px solid var(--w-line); border-radius: 8px; pointer-events: none; z-index: 0;
+  .page {
+    position: relative;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 34px 40px 130px;
+    min-height: 100vh;
   }
 
-  /* Paisley block-print border band */
-  .band { display: block; width: 100%; height: 66px; color: var(--w-indigo); }
-  .band.bottom { transform: scaleY(-1); }
-  @media (max-width: 560px) { .band { height: 50px; } .inner-rule { inset: 58px 8px 58px; } }
+  /* ---------- Decorative white line-art squiggles ---------- */
+  .deco {
+    position: absolute; inset: 0;
+    pointer-events: none; overflow: visible; z-index: 0;
+  }
+  .deco svg {
+    position: absolute;
+    width: clamp(230px, 31vw, 420px);
+    height: auto;
+    color: var(--w-ivory);
+    opacity: 0.88;
+  }
+  .deco .tl { top: -50px;   left: -95px; }
+  .deco .tr { top: -70px;   right: -150px; transform: scaleX(-1); }
+  .deco .bl { bottom: 20px; left: -105px;  transform: scaleY(-1); }
+  .deco .br { bottom: -40px; right: -150px; transform: scale(-1, -1); }
+  @media (max-width: 760px) {
+    .deco svg { opacity: 0.3; width: clamp(160px, 46vw, 240px); }
+  }
 
-  header { text-align: center; position: relative; z-index: 1; padding-top: 14px; }
-  .top-orn {
-    color: var(--w-indigo); font-family: "Marcellus", serif;
-    font-size: 0.95rem; letter-spacing: 0.28em; text-transform: uppercase; margin-bottom: 4px;
-  }
-  .welcome {
-    font-family: "Great Vibes", cursive;
-    font-size: clamp(3.2rem, 10vw, 5.6rem); line-height: 0.9;
-    color: var(--w-indigo); margin: 0 0 4px; font-weight: 400;
-  }
-  .to-wedding {
-    letter-spacing: 0.34em; font-size: clamp(0.76rem, 2.5vw, 0.95rem);
-    font-weight: 600; text-transform: uppercase; color: var(--w-sub); margin: 6px 0 6px;
-  }
-  .couple {
-    font-family: "Rozha One", serif; font-weight: 400; letter-spacing: 0.02em;
-    font-size: clamp(1.9rem, 7.5vw, 3.1rem); margin: 2px 0; color: var(--w-indigo-deep); line-height: 1.05;
-  }
-  .couple .amp { font-family: "Great Vibes", cursive; font-size: 0.95em; color: var(--w-indigo); }
+  /* ---------- Header ---------- */
+  header { position: relative; z-index: 1; text-align: center; padding: 40px 0 6px; }
   .find-seat {
-    font-family: "Great Vibes", cursive; font-size: clamp(1.5rem, 5vw, 2.1rem);
-    color: var(--w-indigo); margin: 2px 0 2px;
+    font-family: var(--font-script);
+    font-weight: 600;
+    font-size: clamp(3.6rem, 13.5vw, 7.4rem);
+    line-height: 1.05;
+    margin: 0;
+    color: var(--w-ivory);
   }
-  .flourish {
-    display: flex; align-items: center; justify-content: center; gap: 12px;
-    margin: 14px auto 22px; max-width: 320px; color: var(--w-indigo);
+  .eyebrow {
+    font-size: clamp(0.72rem, 2.3vw, 0.88rem);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--w-ivory-faint);
+    margin: 10px 0 0;
   }
-  .flourish::before, .flourish::after {
-    content: ""; height: 1px; flex: 1;
-    background: linear-gradient(90deg, transparent, var(--w-line), transparent);
-  }
-  .flourish span { font-size: 1rem; opacity: 0.9; }
 
-  /* Search */
-  .search-wrap { position: relative; z-index: 1; max-width: 540px; margin: 0 auto 8px; }
+  /* ---------- Search ---------- */
+  .search-wrap { position: relative; z-index: 1; max-width: 560px; margin: 26px auto 0; }
   .search-box {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--cp-surface); border: 1.5px solid var(--w-indigo);
-    border-radius: 999px; padding: 12px 18px;
-    box-shadow: 0 4px 14px rgba(42,51,126,0.12);
+    display: flex; align-items: center; gap: 12px;
+    background: var(--w-veil);
+    border: 1.5px solid rgba(244, 241, 234, 0.45);
+    border-radius: 999px;
+    padding: 13px 20px;
+    transition: border-color .2s, background .2s;
   }
-  .search-box svg { flex: 0 0 auto; color: var(--w-indigo); }
+  .search-box:focus-within {
+    border-color: var(--w-ivory);
+    background: rgba(244, 241, 234, 0.13);
+  }
+  .search-box svg { flex: 0 0 auto; color: var(--w-ivory-dim); }
   .search-box input {
-    border: 0; outline: 0; background: transparent;
-    font-family: "Cormorant Garamond", serif; font-size: 1.25rem; width: 100%; color: var(--w-ink);
+    border: 0; outline: 0; background: transparent; width: 100%;
+    font-family: "Cormorant Garamond", serif; font-size: 1.28rem; color: var(--w-ivory);
   }
-  .search-box input::placeholder { color: var(--w-sub); opacity: 0.85; }
+  .search-box input::placeholder { color: rgba(244, 241, 234, 0.5); }
   .clear-btn {
-    border: 0; background: transparent; cursor: pointer; color: var(--w-sub);
-    font-size: 1.4rem; line-height: 1; padding: 0 2px; display: none;
+    border: 0; background: transparent; cursor: pointer; color: var(--w-ivory-dim);
+    font-size: 1.5rem; line-height: 1; padding: 0 2px; display: none;
   }
 
-  .result { max-width: 540px; margin: 12px auto 0; z-index: 1; position: relative; display: none; }
+  .result { position: relative; z-index: 1; max-width: 560px; margin: 16px auto 0; display: none; }
   .result-inner {
-    background: var(--w-indigo-soft); border: 1px solid var(--w-indigo);
-    border-radius: 14px; padding: 16px 20px; text-align: center;
+    background: rgba(244, 241, 234, 0.09);
+    border: 1px solid rgba(244, 241, 234, 0.4);
+    border-radius: 16px; padding: 18px 22px; text-align: center;
   }
-  .result-name { font-size: 1.5rem; font-weight: 600; color: var(--w-indigo-deep); }
-  .result-table { font-family: "Great Vibes", cursive; font-size: 1.95rem; color: var(--w-indigo); margin-top: 2px; }
-  .result.none .result-inner { background: var(--cp-surface-soft); border-color: var(--w-line); }
-  .result.none .result-name { color: var(--w-sub); }
-  .result .companions { margin-top: 8px; font-size: 1.05rem; color: var(--w-sub); }
+  .result-name { font-size: 1.5rem; font-weight: 500; letter-spacing: 0.02em; }
+  .result-table {
+    font-family: var(--font-script); font-weight: 600; font-size: 2.3rem;
+    line-height: 1.2; margin-top: 4px; color: var(--w-ivory);
+  }
+  .result .companions { margin-top: 8px; font-size: 1.05rem; color: var(--w-ivory-dim); }
+  .result.none .result-inner { background: transparent; border-style: dashed; }
+  .result.none .result-name { color: var(--w-ivory-dim); }
 
-  /* Tables grid */
-  .tables { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px 20px; position: relative; z-index: 1; margin-top: 8px; }
-  @media (max-width: 680px) { .tables { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 420px) { .tables { grid-template-columns: 1fr; } }
+  .rule {
+    position: relative; z-index: 1; height: 1px; max-width: 320px;
+    margin: 34px auto 30px;
+    background: linear-gradient(90deg, transparent, rgba(244,241,234,0.45), transparent);
+  }
+
+  /* ---------- Tables grid ---------- */
+  .tables {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 34px 26px;
+  }
+  @media (max-width: 900px) { .tables { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 660px) { .tables { grid-template-columns: repeat(2, 1fr); gap: 26px 18px; } }
+  @media (max-width: 380px) { .tables { grid-template-columns: 1fr; } }
 
   .table-block {
-    text-align: center; border-radius: 12px; padding: 12px 8px;
-    transition: background .25s, box-shadow .25s, opacity .25s; border: 1px solid transparent;
+    border-radius: 12px; padding: 12px 14px;
+    border: 1px solid transparent;
+    transition: background .25s, border-color .25s, opacity .25s;
   }
-  .table-block.dim { opacity: 0.25; }
-  .table-block.match { background: var(--w-indigo-soft); box-shadow: 0 0 0 1.5px var(--w-indigo); border-color: var(--w-indigo); }
-  .table-title { font-family: "Rozha One", serif; font-size: 1.35rem; color: var(--w-indigo-deep); margin-bottom: 8px; display: inline-block; }
-  .table-title::after { content: "❁"; display: block; color: var(--w-indigo); font-size: 0.75rem; margin-top: 2px; opacity: 0.7; }
-  .guest { font-size: 1.12rem; color: var(--w-ink); line-height: 1.55; }
-  .guest.hit { color: var(--w-indigo-deep); font-weight: 600; }
-  mark { background: rgba(42,51,126,0.16); color: inherit; padding: 0 2px; border-radius: 3px; }
+  .table-block.dim { opacity: 0.22; }
+  .table-block.match {
+    background: rgba(244, 241, 234, 0.1);
+    border-color: rgba(244, 241, 234, 0.55);
+  }
+  .table-title {
+    font-size: clamp(1.45rem, 3.4vw, 1.9rem);
+    font-weight: 300; letter-spacing: 0.01em;
+    font-variant-numeric: lining-nums;
+    margin: 0 0 12px; color: var(--w-ivory);
+  }
+  .guest {
+    font-size: 1.1rem; line-height: 1.52;
+    color: var(--w-ivory-dim); font-weight: 300;
+  }
+  .guest.hit { color: var(--w-ivory); font-weight: 500; }
+  mark { background: rgba(244, 241, 234, 0.26); color: inherit; padding: 0 2px; border-radius: 3px; }
 
-  /* QR button + modal */
+  /* ---------- Footer ---------- */
+  footer { position: relative; z-index: 1; text-align: center; margin-top: 64px; }
+  .couple {
+    font-weight: 300;
+    font-size: clamp(1.9rem, 8vw, 4rem);
+    letter-spacing: 0.22em;
+    margin: 0; line-height: 1.15;
+    text-transform: uppercase;
+  }
+  .couple .amp {
+    font-family: var(--font-script); font-weight: 600;
+    text-transform: none; letter-spacing: 0;
+    font-size: 0.66em; padding: 0 0.16em;
+  }
+  .wed-date {
+    font-size: clamp(1.15rem, 3.6vw, 1.85rem);
+    font-weight: 300; color: var(--w-ivory-dim);
+    font-variant-numeric: lining-nums;
+    margin-top: 6px; letter-spacing: 0.02em;
+  }
+
+  /* ---------- QR button + modal ---------- */
   .qr-fab {
     position: fixed; bottom: 20px; right: 20px; z-index: 20;
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--w-indigo); color: #fff; border: 0; border-radius: 999px; cursor: pointer;
-    padding: 12px 18px; font-family: "Marcellus", serif; font-size: 1.02rem; letter-spacing: .03em;
-    box-shadow: 0 8px 24px rgba(42,51,126,0.3);
+    background: var(--w-ivory); color: var(--w-green-deep);
+    border: 0; border-radius: 999px; cursor: pointer;
+    padding: 12px 20px;
+    font-family: "Cormorant Garamond", serif; font-size: 1.05rem;
+    font-weight: 500; letter-spacing: 0.04em;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   }
-  .qr-fab:hover { background: var(--w-indigo-deep); }
-  html[data-theme="dark"] .qr-fab { color: #14162a; }
+  .qr-fab:hover { background: #fff; }
 
-  .modal-overlay { position: fixed; inset: 0; background: rgba(20,22,42,0.55); display: none; align-items: center; justify-content: center; z-index: 30; padding: 20px; }
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(8, 26, 19, 0.7);
+    display: none; align-items: center; justify-content: center; z-index: 30; padding: 20px;
+  }
   .modal-overlay.open { display: flex; }
   .modal {
-    background: var(--w-paper); color: var(--w-ink); border: 1.5px solid var(--w-indigo);
-    border-radius: 16px; max-width: 360px; width: 100%; padding: 26px 26px 22px; text-align: center;
-    box-shadow: var(--cp-shadow); position: relative;
+    background: var(--w-green-deep); color: var(--w-ivory);
+    border: 1.5px solid rgba(244, 241, 234, 0.45);
+    border-radius: 18px; max-width: 360px; width: 100%;
+    padding: 28px 26px 22px; text-align: center;
+    box-shadow: var(--w-shadow); position: relative;
   }
-  .modal h3 { font-family: "Great Vibes", cursive; font-weight: 400; font-size: 2rem; margin: 0 0 4px; color: var(--w-indigo); }
-  .modal p { color: var(--w-sub); font-size: 1.02rem; margin: 0 0 16px; }
+  .modal h3 {
+    font-family: var(--font-script); font-weight: 600;
+    font-size: 2.1rem; margin: 0 0 6px; line-height: 1.15;
+  }
+  .modal p { color: var(--w-ivory-dim); font-size: 1.05rem; margin: 0 0 16px; }
   #qrcode { display: flex; justify-content: center; }
-  #qrcode img { width: 220px; height: 220px; border-radius: 10px; border: 1.5px solid var(--w-indigo); background:#fff; padding:6px; }
-  .modal .url { margin-top: 14px; font-size: 0.82rem; color: var(--w-sub); word-break: break-all; font-family: Consolas, monospace; }
-  .modal-close { position: absolute; top: 10px; right: 12px; border: 0; background: transparent; font-size: 1.5rem; cursor: pointer; color: var(--w-sub); line-height: 1; }
-  .modal .hint { font-size: 0.8rem; color: var(--w-sub); margin-top: 10px; }
+  #qrcode img {
+    width: 220px; height: 220px; border-radius: 10px;
+    border: 1.5px solid rgba(244, 241, 234, 0.5); background: #fff; padding: 6px;
+  }
+  .modal .url {
+    margin-top: 14px; font-size: 0.8rem; color: var(--w-ivory-faint);
+    word-break: break-all; font-family: Consolas, monospace;
+  }
+  .modal-close {
+    position: absolute; top: 10px; right: 14px; border: 0; background: transparent;
+    font-size: 1.6rem; cursor: pointer; color: var(--w-ivory-dim); line-height: 1;
+  }
+  .modal .hint { font-size: 0.82rem; color: var(--w-ivory-faint); margin-top: 10px; }
 </style>
 </head>
 <body>
-  <!-- Reusable paisley / floral block-print band -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <pattern id="paisleyBand" x="0" y="0" width="150" height="66" patternUnits="userSpaceOnUse">
-        <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-          <!-- scallop arches -->
-          <path d="M0 12 Q25 34 50 12 Q75 34 100 12 Q125 34 150 12"/>
-          <!-- paisley (buta) centered -->
-          <path d="M75 30 C 54 30 46 50 55 64 C 61 74 78 75 84 64 C 88 56 83 48 74 50 C 68 51 67 58 72 60"/>
-          <path d="M74 36 C 59 37 52 51 57 63 C 60 70 73 71 80 63"/>
-          <!-- paisley center bloom -->
-          <circle cx="65" cy="49" r="3.4"/>
-        </g>
-        <g fill="currentColor" stroke="none">
-          <!-- cusp dots -->
-          <circle cx="0" cy="10" r="1.7"/><circle cx="50" cy="10" r="1.7"/><circle cx="100" cy="10" r="1.7"/><circle cx="150" cy="10" r="1.7"/>
-          <circle cx="25" cy="24" r="1.3"/><circle cx="75" cy="24" r="1.3"/><circle cx="125" cy="24" r="1.3"/>
-          <!-- paisley fringe dots -->
-          <circle cx="53" cy="49" r="1.3"/><circle cx="51" cy="56" r="1.3"/><circle cx="53" cy="63" r="1.3"/><circle cx="59" cy="69" r="1.3"/>
-          <circle cx="65" cy="49" r="1"/>
-          <!-- small florets left & right -->
-          <g><circle cx="20" cy="50" r="1.5"/><circle cx="20" cy="44" r="1.4"/><circle cx="26" cy="48" r="1.4"/><circle cx="24" cy="55" r="1.4"/><circle cx="16" cy="55" r="1.4"/><circle cx="14" cy="48" r="1.4"/></g>
-          <g><circle cx="130" cy="50" r="1.5"/><circle cx="130" cy="44" r="1.4"/><circle cx="136" cy="48" r="1.4"/><circle cx="134" cy="55" r="1.4"/><circle cx="124" cy="55" r="1.4"/><circle cx="122" cy="48" r="1.4"/></g>
-          <!-- scatter -->
-          <circle cx="40" cy="42" r="1.1"/><circle cx="110" cy="42" r="1.1"/><circle cx="95" cy="62" r="1.1"/>
-        </g>
-      </pattern>
-    </defs>
-  </svg>
-
-  <div class="card">
-    <svg class="band top" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#paisleyBand)"/></svg>
-    <div class="frame">
-      <div class="inner-rule"></div>
-
-      <header>
-        <div class="top-orn">Shubh Vivah</div>
-        <h1 class="welcome">Welcome</h1>
-        <div class="to-wedding">To the wedding of</div>
-        <div class="couple">Sagar <span class="amp">&amp;</span> Krupa</div>
-        <div class="find-seat">please find your seat</div>
-      </header>
-
-      <div class="flourish"><span>&#10086;</span></div>
-
-      <div class="search-wrap">
-        <div class="search-box">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input id="search" type="text" placeholder="Type your name to find your table..." autocomplete="off" spellcheck="false" />
-          <button class="clear-btn" id="clear" aria-label="Clear">&times;</button>
-        </div>
-      </div>
-
-      <div class="result" id="result">
-        <div class="result-inner">
-          <div class="result-name" id="resultName"></div>
-          <div class="result-table" id="resultTable"></div>
-          <div class="companions" id="resultCompanions"></div>
-        </div>
-      </div>
-
-      <div class="flourish"><span>&#10022;</span></div>
-
-      <div class="tables" id="tables"></div>
+  <div class="page">
+    <div class="deco" aria-hidden="true">
+      <svg class="tl" viewBox="0 0 440 400" fill="none" stroke="currentColor" stroke-linecap="round">
+        <use href="#squiggleA" />
+      </svg>
+      <svg class="tr" viewBox="0 0 440 400" fill="none" stroke="currentColor" stroke-linecap="round">
+        <use href="#squiggleB" />
+      </svg>
+      <svg class="bl" viewBox="0 0 440 400" fill="none" stroke="currentColor" stroke-linecap="round">
+        <use href="#squiggleB" />
+      </svg>
+      <svg class="br" viewBox="0 0 440 400" fill="none" stroke="currentColor" stroke-linecap="round">
+        <use href="#squiggleA" />
+      </svg>
     </div>
-    <svg class="band bottom" preserveAspectRatio="none" aria-hidden="true"><rect width="100%" height="100%" fill="url(#paisleyBand)"/></svg>
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <g id="squiggleA">
+          <path stroke-width="5.5" d="M404 -14C302 40 212 58 150 122c-62 64-50 154 32 172 82 18 118-62 58-100-60-38-172-2-246 118"/>
+          <path stroke-width="2.3" d="M404 -14C302 40 212 58 150 122c-62 64-50 154 32 172 82 18 118-62 58-100-60-38-172-2-246 118" transform="translate(22,18)"/>
+        </g>
+        <g id="squiggleB">
+          <path stroke-width="5.5" d="M-24 34C78 78 160 58 222 112c62 54 50 146-32 160-82 14-122-58-62-96 60-38 174 6 232 130"/>
+          <path stroke-width="2.3" d="M-24 34C78 78 160 58 222 112c62 54 50 146-32 160-82 14-122-58-62-96 60-38 174 6 232 130" transform="translate(-20,20)"/>
+        </g>
+      </defs>
+    </svg>
+
+    <header>
+      <h1 class="find-seat">Find Your Seat</h1>
+    </header>
+
+    <div class="search-wrap">
+      <div class="search-box">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input id="search" type="text" placeholder="Type your name to find your table..." autocomplete="off" spellcheck="false" />
+        <button class="clear-btn" id="clear" aria-label="Clear">&times;</button>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="result-inner">
+        <div class="result-name" id="resultName"></div>
+        <div class="result-table" id="resultTable"></div>
+        <div class="companions" id="resultCompanions"></div>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+
+    <div class="tables" id="tables"></div>
+
+    <footer>
+      <div class="couple">Sagar <span class="amp">and</span> Krupa</div>
+      <div class="wed-date">October 17, 2026</div>
+    </footer>
   </div>
 
   <button class="qr-fab" id="qrFab">
@@ -277,15 +303,18 @@
 
 <script>
   const TABLES = [
-    { n: 1, guests: ["Paul Nolan","Steven McLean","Madeleine Manning","Olivia Graham","Carolyn Kelly","Justin Jones"] },
-    { n: 2, guests: ["Jed Sparks","Anne Vargas","Lorene Rollins","Carter Jackson","Marcelino Beasley","Erick Fleming"] },
-    { n: 3, guests: ["Tasha Morse","David Odonnell","Pearl Mullins","Therese Paul","Tobias Sweeney","Alyce Ramirez"] },
-    { n: 4, guests: ["Jeri Tucker","Natalia Carter","Cherry David","Fay Parker","Margarito Andrade","Brenton Booth"] },
-    { n: 5, guests: ["Young Levy","Terry Mann","Virgilio Estes","Stacie Benson","Antony Owen","Richie Hart"] },
-    { n: 6, guests: ["Lavern Lutz","Salvatore Acosta","Kris Sellers","Cornelia Cooper","Brendan Peck","Sandy Merritt"] },
-    { n: 7, guests: ["Hilton Hill","Claudette Graham","Sherry Hopkins","Wallace Russo","Latoya Lee","Henry Cline"] },
-    { n: 8, guests: ["Ginger Johns","Lewis Baldwin","Allison Burch","Katy Bailey","Kerri Matthews","Kendra Ponce"] },
-    { n: 9, guests: ["Monte Lin","Lynn Frost","Pamela Cooke","Mack Figueroa","Benedict Zimmerman","Pansy Novak","Orville Guerra"] },
+    { n: 1,  guests: ["Tommy Cochran","Charlotte Cochran","Brianna Cochran","Jordan Bautista","Hope Bautista","Charity Johns"] },
+    { n: 2,  guests: ["Alijah Lozano","Moriah Lozano","Terry Lozano","Alejandra Marks","Ahmad Marks","Nicolas Simpson"] },
+    { n: 3,  guests: ["Malachi Kim","Waylon Howell","Makai Estrada","Trevor Donovan","Avery Lynch","Ali Stanley"] },
+    { n: 4,  guests: ["Callum Shea","Kaylin Shea","Leyla Merritt","Deon Merritt","Deanna Merritt","Brycen Shea"] },
+    { n: 5,  guests: ["Catherina George","Louis Tran","Natalie Tran","Royce Boyd","Keshawn Boyd","Riley Boyd"] },
+    { n: 6,  guests: ["Gunner Levine","Dana Levine","Kingston Mercer","Branson Mercer","Milton Mercer","Camila Mercer"] },
+    { n: 7,  guests: ["Tommy Cochran","Charlotte Cochran","Brianna Cochran","Jordan Bautista","Hope Bautista","Charity Johns"] },
+    { n: 8,  guests: ["Alijah Lozano","Moriah Lozano","Terry Lozano","Alejandra Marks","Ahmad Marks","Nicolas Simpson"] },
+    { n: 9,  guests: ["Malachi Kim","Waylon Howell","Makai Estrada","Trevor Donovan","Avery Lynch","Ali Stanley"] },
+    { n: 10, guests: ["Callum Shea","Kaylin Shea","Leyla Merritt","Deon Merritt","Deanna Merritt","Brycen Shea"] },
+    { n: 11, guests: ["Alijah Lozano","Moriah Lozano","Terry Lozano","Alejandra Marks","Ahmad Marks","Nicolas Simpson"] },
+    { n: 12, guests: ["Gunner Levine","Dana Levine","Kingston Mercer","Branson Mercer","Milton Mercer","Camila Mercer"] },
   ];
 
   const norm = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
@@ -308,11 +337,6 @@
   const resultTable = document.getElementById("resultTable");
   const resultCompanions = document.getElementById("resultCompanions");
 
-  function findGuest(name) {
-    for (const t of TABLES) for (const g of t.guests)
-      if (norm(g) === name) return { table: t.n, name: g, guests: t.guests };
-    return null;
-  }
   function reset() {
     guestEls.forEach(el => { el.classList.remove("hit"); el.innerHTML = el.textContent; });
     blockEls.forEach(el => el.classList.remove("dim", "match"));
@@ -336,6 +360,10 @@
       el.classList.toggle("dim", !isMatch && matchTables.size > 0);
     });
     matches.forEach(el => { el.classList.add("hit"); highlight(el, q); });
+
+    const exact = matches.filter(el => el.dataset.name === q);
+    const sortedTables = [...matchTables].sort((a, b) => a - b);
+
     if (matches.length === 0) {
       resultEl.className = "result none"; resultEl.style.display = "block";
       resultName.textContent = `No guest found for "${raw.trim()}"`;
@@ -344,18 +372,23 @@
     } else if (matches.length === 1) {
       const el = matches[0];
       const tableNo = Number(el.closest(".table-block").dataset.table);
-      const info = findGuest(el.dataset.name) || { guests: [] };
+      const guests = (TABLES.find(t => t.n === tableNo) || { guests: [] }).guests;
       resultEl.className = "result"; resultEl.style.display = "block";
       resultName.textContent = el.textContent;
       resultTable.textContent = `You're at Table ${tableNo}`;
-      const others = info.guests.filter(g => norm(g) !== el.dataset.name);
+      const others = guests.filter(g => norm(g) !== el.dataset.name);
       resultCompanions.textContent = others.length ? "Seated with: " + others.join(", ") : "";
+    } else if (exact.length === matches.length) {
+      resultEl.className = "result"; resultEl.style.display = "block";
+      resultName.textContent = exact[0].textContent;
+      resultTable.textContent = `Tables ${sortedTables.join(" & ")}`;
+      resultCompanions.textContent = "This name is listed at more than one table. Please check with an usher.";
     } else {
       resultEl.className = "result"; resultEl.style.display = "block";
       resultName.textContent = `${matches.length} matches`;
-      resultTable.textContent = matchTables.size === 1
-        ? `All at Table ${[...matchTables][0]}`
-        : `Across Tables ${[...matchTables].sort((a,b)=>a-b).join(", ")}`;
+      resultTable.textContent = sortedTables.length === 1
+        ? `All at Table ${sortedTables[0]}`
+        : `Tables ${sortedTables.join(", ")}`;
       resultCompanions.textContent = "Keep typing to narrow it down.";
     }
   }
