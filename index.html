@@ -33,8 +33,11 @@
     background: var(--w-green);
     color: var(--w-ivory);
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
   }
+
+  /* Clips the bleeding decorations so they can never widen the page.
+     `clip` (not `hidden`) avoids creating a scroll container. */
+  .shell { overflow-x: clip; overflow-y: visible; }
 
   .page {
     position: relative;
@@ -70,9 +73,16 @@
     font-family: var(--font-script);
     font-weight: 600;
     font-size: clamp(3rem, 12vw, 7.4rem);
-    line-height: 1.05;
+    line-height: 1.12;
     margin: 0;
+    padding: 0 0.12em 0.08em;   /* room for the descender + swash tail */
     color: var(--w-ivory);
+  }
+  .eyebrow {
+    font-size: clamp(0.62rem, 2.2vw, 0.78rem);
+    letter-spacing: 0.42em; text-transform: uppercase;
+    color: var(--w-ivory-faint);
+    margin: 0 0 6px; padding-left: 0.42em;
   }
 
   /* ---------- Search (sticky) ---------- */
@@ -178,24 +188,57 @@
   mark { background: rgba(244, 241, 234, 0.28); color: inherit; padding: 0 2px; border-radius: 3px; }
 
   /* ---------- Footer ---------- */
-  footer { position: relative; z-index: 1; text-align: center; margin-top: 64px; }
+  footer {
+    position: relative; z-index: 1; text-align: center;
+    margin: 76px auto 0; max-width: 720px;
+    padding: 40px 28px 34px;
+  }
+  /* Thin ivory corner brackets frame the names */
+  footer::before, footer::after {
+    content: ""; position: absolute; width: 58px; height: 58px;
+    border: 1px solid rgba(244, 241, 234, 0.42);
+  }
+  footer::before { top: 0; left: 0;  border-right: 0; border-bottom: 0; border-radius: 4px 0 0 0; }
+  footer::after  { bottom: 0; right: 0; border-left: 0; border-top: 0;  border-radius: 0 0 4px 0; }
+
   .couple {
+    --track: 0.16em;
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 0.08em var(--track);
     font-weight: 300;
-    font-size: clamp(1.75rem, 7.6vw, 4rem);
-    letter-spacing: 0.2em;
-    margin: 0; line-height: 1.2;
+    font-size: clamp(1.9rem, 7.4vw, 3.9rem);
+    letter-spacing: normal;
+    margin: 0; line-height: 1.16;
     text-transform: uppercase;
   }
+  /* letter-spacing adds a trailing gap after the last glyph, which shoves
+     the script "and" off-centre. Cancel it, then nudge back by half the
+     tracking so the space reads equal on both sides at any size. */
+  .couple .nm {
+    display: inline-block;
+    letter-spacing: var(--track);
+    margin-right: calc(-1 * var(--track));
+  }
   .couple .amp {
-    font-family: var(--font-script); font-weight: 600;
-    text-transform: none; letter-spacing: 0;
-    font-size: 0.66em; padding: 0 0.16em;
+    font-family: var(--font-script); font-weight: 500;
+    text-transform: none; letter-spacing: normal;
+    font-size: 0.78em; line-height: 1;
+    color: var(--w-ivory-dim);
+    /* half the tracking, converted from couple-em into amp-em (÷0.78),
+       plus a baseline drop so the script sits with the uppercase serif */
+    transform: translate(0.103em, 0.06em);
   }
   .wed-date {
-    font-size: clamp(1.1rem, 3.6vw, 1.85rem);
-    font-weight: 300; color: var(--w-ivory-dim);
+    font-size: clamp(0.92rem, 2.7vw, 1.2rem);
+    font-weight: 400; color: var(--w-ivory-dim);
     font-variant-numeric: lining-nums;
-    margin-top: 6px; letter-spacing: 0.02em;
+    margin-top: 16px; letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+  .venue-note {
+    margin-top: 10px; font-size: 0.86rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--w-ivory-faint);
   }
 
   /* ---------- QR button + modal ---------- */
@@ -257,57 +300,68 @@
      PHONE
      ========================================================= */
   @media (max-width: 640px) {
-    :root { --gutter: 18px; }
+    :root { --gutter: 16px; }
 
     .page { padding: 12px var(--gutter) 90px; min-height: 0; }
 
-    header { padding: 10px 0 2px; }
-    .find-seat { font-size: clamp(2.9rem, 15vw, 4.2rem); }
+    header { padding: 8px 0 2px; }
+    .eyebrow { font-size: 0.7rem; letter-spacing: 0.38em; }
+    .find-seat { font-size: clamp(2.6rem, 13.2vw, 4.6rem); white-space: nowrap; }
 
-    /* Decoration stays bold and ivory, just scaled and pushed to the margins */
-    .deco svg { width: clamp(200px, 60vw, 300px); opacity: 0.9; }
-    .deco .tl { top: -46px;    left: -138px; }
-    .deco .tr { top: -66px;    right: -138px; }
-    .deco .bl { bottom: 30px;  left: -150px; }
-    .deco .br { bottom: -50px; right: -138px; }
+    /* Decoration stays bold and ivory, pushed clear of the headline */
+    .deco svg { width: clamp(220px, 64vw, 320px); opacity: 0.9; }
+    .deco .tl { top: -10px;    left: -152px; }
+    .deco .tr { top: -24px;    right: -152px; }
+    .deco .bl { bottom: 40px;  left: -162px; }
+    .deco .br { bottom: -50px; right: -150px; }
 
-    .search-dock { margin-top: 14px; padding: 10px var(--gutter) 12px; }
-    .search-box { padding: 12px 16px; gap: 10px; }
-    .search-box input { font-size: 1.12rem; }
+    .search-dock { margin-top: 16px; padding: 10px var(--gutter) 12px; }
+    .search-box { padding: 14px 18px; gap: 10px; }
+    .search-box input { font-size: 1.2rem; }
 
     .result { margin-top: 12px; }
     .result-inner { padding: 16px 16px; border-radius: 16px; }
-    .result-name { font-size: 1.28rem; }
-    .result-table { font-size: 2rem; }
-    .result .companions { font-size: 0.98rem; }
+    .result-name { font-size: 1.34rem; }
+    .result-table { font-size: 2.15rem; }
+    .result .companions { font-size: 1rem; }
 
     .rule { margin: 24px auto 20px; }
 
     /* Two readable columns beats one very long scroll */
-    .tables { grid-template-columns: repeat(2, 1fr); gap: 18px 12px; }
+    .tables { grid-template-columns: repeat(2, 1fr); gap: 16px 11px; }
     .table-block {
-      padding: 12px 12px 14px;
+      padding: 13px 12px 15px;
       border-color: rgba(244, 241, 234, 0.2);
       background: rgba(14, 49, 35, 0.72);
     }
     .table-block.dim { opacity: 0.3; }
-    .table-title { font-size: 1.3rem; margin-bottom: 8px; padding-bottom: 7px; }
-    .guest { font-size: 1rem; line-height: 1.5; }
+    .table-title { font-size: 1.42rem; margin-bottom: 9px; padding-bottom: 8px; }
+    .guest { font-size: 1.09rem; line-height: 1.5; }
 
-    footer { margin-top: 40px; }
-    .couple { letter-spacing: 0.1em; }
+    footer { margin-top: 48px; padding: 32px 18px 28px; }
+    footer::before, footer::after { width: 42px; height: 42px; }
+    .couple { --track: 0.2em; }
+    .wed-date { letter-spacing: 0.22em; margin-top: 13px; }
+    .venue-note { letter-spacing: 0.18em; }
 
     /* On a phone you are already holding the link - shrink the QR to an icon */
     .qr-fab {
       right: 14px; bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-      padding: 12px; border-radius: 50%; gap: 0;
+      padding: 13px; border-radius: 50%; gap: 0;
     }
     .qr-fab .qr-label { display: none; }
   }
 
-  @media (max-width: 380px) {
+  @media (max-width: 390px) {
+    .tables { gap: 14px 9px; }
+    .table-block { padding: 12px 10px 14px; }
+    .table-title { font-size: 1.32rem; }
+    .guest { font-size: 1.03rem; }
+  }
+
+  @media (max-width: 340px) {
     .tables { grid-template-columns: 1fr; gap: 12px; }
-    .find-seat { font-size: 2.65rem; }
+    .find-seat { font-size: 12.8vw; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -316,6 +370,7 @@
 </style>
 </head>
 <body>
+  <div class="shell">
   <div class="page">
     <div class="deco" aria-hidden="true">
       <svg class="tl" viewBox="0 0 420 400" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"><use href="#ribbonA" /></svg>
@@ -335,6 +390,7 @@
     </svg>
 
     <header>
+      <div class="eyebrow">Please</div>
       <h1 class="find-seat">Find Your Seat</h1>
     </header>
 
@@ -359,9 +415,13 @@
     <div class="tables" id="tables"></div>
 
     <footer>
-      <div class="couple">Sagar <span class="amp">and</span> Krupa</div>
+      <div class="couple">
+        <span class="nm">Sagar</span><span class="amp">and</span><span class="nm">Krupa</span>
+      </div>
       <div class="wed-date">October 17, 2026</div>
+      <div class="venue-note">Reception</div>
     </footer>
+  </div>
   </div>
 
   <button class="qr-fab" id="qrFab" type="button" aria-label="Show QR code">
