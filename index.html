@@ -119,6 +119,8 @@
     min-width: 0;
   }
   .search-box input::placeholder { color: rgba(244, 241, 234, 0.52); }
+  .search-box input::-webkit-search-cancel-button,
+  .search-box input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none; }
   .clear-btn {
     border: 0; background: transparent; cursor: pointer; color: var(--w-ivory-dim);
     font-size: 1.6rem; line-height: 1; padding: 0 4px; display: none;
@@ -137,6 +139,8 @@
     line-height: 1.2; margin-top: 4px; color: var(--w-ivory);
   }
   .result .companions { margin-top: 8px; font-size: 1.05rem; color: var(--w-ivory-dim); }
+  .result .alt-table { margin-top: 8px; text-align: left; }
+  .result .alt-table strong { color: var(--w-ivory); font-weight: 600; }
   .result.none .result-inner { background: transparent; border-style: dashed; }
   .result.none .result-name { color: var(--w-ivory-dim); }
 
@@ -183,6 +187,7 @@
   .guest {
     font-size: 1.1rem; line-height: 1.55;
     color: var(--w-ivory-dim); font-weight: 300;
+    padding-left: 0.7em; text-indent: -0.7em;
   }
   .guest.hit { color: var(--w-ivory); font-weight: 500; }
   mark { background: rgba(244, 241, 234, 0.28); color: inherit; padding: 0 2px; border-radius: 3px; }
@@ -444,18 +449,34 @@
 
 <script>
   const TABLES = [
-    { n: 1,  guests: ["Tommy Cochran","Charlotte Cochran","Brianna Cochran","Jordan Bautista","Hope Bautista","Charity Johns"] },
-    { n: 2,  guests: ["Alijah Lozano","Moriah Lozano","Terry Lozano","Alejandra Marks","Ahmad Marks","Nicolas Simpson"] },
-    { n: 3,  guests: ["Malachi Kim","Waylon Howell","Makai Estrada","Trevor Donovan","Avery Lynch","Ali Stanley"] },
-    { n: 4,  guests: ["Callum Shea","Kaylin Shea","Leyla Merritt","Deon Merritt","Deanna Merritt","Brycen Shea"] },
-    { n: 5,  guests: ["Catherina George","Louis Tran","Natalie Tran","Royce Boyd","Keshawn Boyd","Riley Boyd"] },
-    { n: 6,  guests: ["Gunner Levine","Dana Levine","Kingston Mercer","Branson Mercer","Milton Mercer","Camila Mercer"] },
-    { n: 7,  guests: ["Tommy Cochran","Charlotte Cochran","Brianna Cochran","Jordan Bautista","Hope Bautista","Charity Johns"] },
-    { n: 8,  guests: ["Alijah Lozano","Moriah Lozano","Terry Lozano","Alejandra Marks","Ahmad Marks","Nicolas Simpson"] },
-    { n: 9,  guests: ["Malachi Kim","Waylon Howell","Makai Estrada","Trevor Donovan","Avery Lynch","Ali Stanley"] },
-    { n: 10, guests: ["Callum Shea","Kaylin Shea","Leyla Merritt","Deon Merritt","Deanna Merritt","Brycen Shea"] },
-    { n: 11, guests: ["Alijah Lozano","Moriah Lozano","Terry Lozano","Alejandra Marks","Ahmad Marks","Nicolas Simpson"] },
-    { n: 12, guests: ["Gunner Levine","Dana Levine","Kingston Mercer","Branson Mercer","Milton Mercer","Camila Mercer"] },
+    { n: 1,  guests: ["Dhaval Shah","Vickie Shah","Veer Shah","Kiara Shah","Hemant Shah","Gita Shah","Kamlesh Shah","Dina Shah","Surekha Shah","Maya Shah","Yogesh Shah"] },
+    { n: 2,  guests: ["Bharat Patel","Swati Patel","Ashok Patel","Sanve Patel","Gauttam Patel","Manisha Patel","Dharmen Patel","Sonal Patel","Prashant Patel","Meghana Patel"] },
+    { n: 3,  guests: ["Arvind Haran","Ardi Dand","Mohit Dhande","Kevin Bernat","Manish Lakkamsani","Anant Gupta","Manas Gosavi","Arth Bhansali","Rishi Partha","Abhi Subramaniam"] },
+    { n: 4,  guests: ["Mattie Morgan","Jo Callier","Meg Neeman","Jake Neeman","Sarah Fredericks","Jake Fredericks","Darby Hobbs","Nick M.","Nirali Patel","Vinay Patel","Malvika Pandya","Sneha Patel","Brandon Long","Saagar Ajmera"] },
+    { n: 5,  guests: ["Deepak Patel","Payal Patel","Karishma Patel","Kunal Chawla","Shital Shah","Naya Chawla","Yatrik Shah","Dolly Shah","Mohini Shah","Vihaan Shah"] },
+    { n: 6,  guests: ["Shivam Patel","Shreya Patel","Ronak Patel","Seanav Patel","Ved Patel","Mitul Pandya","Jeet Patel","Arti Patel","Clementine Brannon","Dhairiya Patel"] },
+    { n: 7,  guests: ["Arun Rajan","Gira Rajan","Milin Rajan","Kavita Rajan","Vikas Gupta","Jagu Gupta","Sonya Gupta","Priya Gupta","Manan Bavishi"] },
+    { n: 8,  guests: ["Rahul Patel","Khushbu Patel","Shiven Patel","Krishiv Patel","Sharad Patel","Kirti Patel","Gopal Patel","Rinkal Patel","Sharad Patel","Hema Patel"] },
+    { n: 9,  guests: ["Alka Shah","Harshil Shah","Prachi Shah","Raya Shah","Aariv Shah","Pankaj Shah","Monica Shah","Nihit Shah","Risa Shah","Richa Shah"] },
+    { n: 10, guests: ["Tushar Patel","Nima Patel","Vidhi Patel","Shiva Patel","Kapilaben Patel","Gansham Patel","Parul Patel","Divyesh Patel","Shaily Patel","Taraben Patel"] },
+    { n: 11, guests: ["Khushi Shah","Chetan Shah","Rupal Shah","Richa Shah","Viral Parikh","Jolly Parikh","Amanya Parikh","Monica Kothari"] },
+    { n: 12, guests: ["Nikita Ajmera","Bharti Sheth","Anil Ranginani","Archana Ranginani","Atul Pandya","Renuka Pandya","Anika Ranginani","Dheeksha Ranginani","Prakash Patel","Rita Patel"] },
+    { n: 13, guests: ["Bhadresh Parikh","Hina Parikh","Niket Parikh","Priya Parikh","Aaryan Parikh","Anika Parikh","Vipul Chokshi","Roshni Chokshi","Harsh Chokshi","Rita Patel"] },
+    { n: 14, guests: ["Samir Patel","Pooja Patel","Shaam Patel","Parth Patel","Jatin Rana","Payal Rana","Adi Rana","Kayva Rana","Sajar Patel","Vinesha Patel"] },
+    { n: 15, guests: ["Bakulesh Metha","Daksha Metha","Pratik Metha","Dipal Metha","Shalin Metha","Sahil Metha","Nripen Sirohi","Pranali Sirohi","Neeyam Sirohi","Aria Sirohi","Ramesh Bhandari","Rekha Bhandari"] },
+    { n: 16, guests: ["Himanshu Patel","Neelam Patel","Ved Patel","Diya Patel","Ravi Patel","Deepal Patel","Ariana Patel","Alaina Patel","Zian Patel","Suraj Patel","Amita Patel"] },
+    { n: 17, guests: ["Shruthi Ashok","Shivali Kanal","Vartika Gupta","Robyn Joelle","Pravalika Jarugula","Meghana Subramaniam","Juhi Buch","Anubhav Srivastava","Anukriti Srivastava","Akshat Sahai"] },
+    { n: 18, guests: ["Sarla Patel","Paresh Patel","Renuka Patel","Kishor Patel","Pushpa Patel","Daxa Patel","Dilip Patel","Mahendra Patel","Shayla Patel","Neha Weisman","Joseph Weisman","Mehul Patel"] },
+    { n: 19, guests: ["Ajay Katiyar","Darshita Katiyar","Lav Pathak","Bindi Pathak","Aishani Pathak","Maitrik Shah","Sheetal Shah","Manoj Nair","Deepa Nair","Akhilesh Nandwana","Jaya Nandwana"] },
+    { n: 20, guests: ["Rahul Patel","Avni Patel","Niyati Patel","Prisha Patel","Drushil Patel","Mit Patel","Kara Patel","Korra Patel","Kalena Patel","Rooke Patel","Hetal Patel"] },
+    { n: 21, guests: ["Anish Saraiya","Manisha Saraiya","Krisham Saraiya","Ashish Talati","Dhatri Talati","Maan Talati","Ashwin Parikh","Shobha Parikh","KC Patel","Jyoti Patel"] },
+    { n: 22, guests: ["Ekta Patel","Disha Patel","Misha Patel","Megh Patel","Bhavana Patel","Chetana Patel","Dhruv Patel","Dhyom Patel","Anil Patel","Rakhi Patel"] },
+    { n: 23, guests: ["Ronak Talati","Chaitali Talati","Simran Talati","Kavya Talati","Manav Talati","Chirag Shah","Chintan Modi","Kanan Modi","Navi Modi","Ayu Modi"] },
+    { n: 24, guests: ["Jackie Labonite","Ashwin Satpude","Sharon Chae","Aaron Terrill","Amanda Metz","Alex Metz","Madison Collins","April Bitner"] },
+    { n: 25, guests: ["Nikhil Kothari","Smita Kothari","Harish Shah","Sheela Shah","Arun Shah","Rashmika Shah","Narendra Shah","Dipti Vaidya","Kirti Vaidya","Chitra Shah"] },
+    { n: 26, guests: ["Deep Patel","Ria Thakker","Juhi Thakkar","Mohil Patel","Nirmal S.","Patrick Brandt","Nicole Brandt","Aften Richter","Brian Z","Matthew Schappe","Marissa Schappe"] },
+    { n: 27, guests: ["Siva Haran","Asha Haran","Ajay Dand","Priti Dand","Ashok Kowde","Sujaya Kowde","Ramakrishna Lakkamsani","Santhi Lakkamsani","Prem Dhande","Vaishali Dhande","Anand Ramdas","Anu Ramdas"] },
+    { n: 28, guests: ["Anand Haran","Aashish Subramaniam","Aruv Dand","Manali Dhande","Haneesh Lakkamsani","Akhila Gopal","Varun Sampat","Shivani Sampat","Aarav Sampat","Kush Buch","Akansha Buch","Zaynah Shareef"] },
   ];
 
   const norm = (s) => s.toLowerCase().replace(/\s+/g, " ").trim();
@@ -505,7 +526,10 @@
     clearTimeout(scrollTimer);
     if (!q) { reset(); return; }
 
-    const matches = guestEls.filter(el => el.dataset.name.includes(q));
+    let matches = guestEls.filter(el => el.dataset.name.includes(q));
+    // A full-name match wins over partial ones ("anika parikh" shouldn't also light up "Anika Ranginani").
+    const exact = matches.filter(el => el.dataset.name === q);
+    if (exact.length) matches = exact;
     const matchTables = new Set(matches.map(el => Number(el.closest(".table-block").dataset.table)));
     guestEls.forEach(el => { el.classList.remove("hit"); el.innerHTML = el.textContent; });
     blockEls.forEach(el => {
@@ -515,8 +539,10 @@
     });
     matches.forEach(el => { el.classList.add("hit"); highlight(el, q); });
 
-    const exact = matches.filter(el => el.dataset.name === q);
     const sortedTables = [...matchTables].sort((a, b) => a - b);
+    const sameName = new Set(matches.map(el => el.dataset.name)).size === 1;
+    const tablematesOf = (tableNo, name) =>
+      ((TABLES.find(t => t.n === tableNo) || { guests: [] }).guests).filter(g => norm(g) !== name);
 
     if (matches.length === 0) {
       resultEl.className = "result none"; resultEl.style.display = "block";
@@ -528,19 +554,32 @@
 
     resultEl.className = "result"; resultEl.style.display = "block";
 
-    if (matches.length === 1) {
+    if (sameName && sortedTables.length === 1) {
       const el = matches[0];
-      const tableNo = Number(el.closest(".table-block").dataset.table);
-      const guests = (TABLES.find(t => t.n === tableNo) || { guests: [] }).guests;
+      const tableNo = sortedTables[0];
+      const others = tablematesOf(tableNo, el.dataset.name);
       resultName.textContent = el.textContent;
       resultTable.textContent = `You're at Table ${tableNo}`;
-      const others = guests.filter(g => norm(g) !== el.dataset.name);
       resultCompanions.textContent = others.length ? "Seated with: " + others.join(", ") : "";
       scrollToMatch();
-    } else if (exact.length === matches.length) {
-      resultName.textContent = exact[0].textContent;
-      resultTable.textContent = `Tables ${sortedTables.join(" & ")}`;
-      resultCompanions.textContent = "This name is listed at more than one table. Please check with an usher.";
+    } else if (sameName) {
+      // Different guests who share a name: show each table's company so they can find their own.
+      const name = matches[0].dataset.name;
+      resultName.textContent = matches[0].textContent;
+      resultTable.textContent = `Table ${sortedTables.join(" or ")}`;
+      resultCompanions.textContent = "";
+      const intro = document.createElement("div");
+      intro.textContent = "More than one guest has this name. Look for your party:";
+      resultCompanions.appendChild(intro);
+      sortedTables.forEach(n => {
+        const line = document.createElement("div");
+        line.className = "alt-table";
+        const label = document.createElement("strong");
+        label.textContent = `Table ${n}: `;
+        line.appendChild(label);
+        line.appendChild(document.createTextNode("with " + tablematesOf(n, name).join(", ")));
+        resultCompanions.appendChild(line);
+      });
     } else {
       resultName.textContent = `${matches.length} matches`;
       resultTable.textContent = sortedTables.length === 1
